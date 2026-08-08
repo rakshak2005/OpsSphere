@@ -7,7 +7,7 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string, secretCode: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -43,8 +43,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, [token]);
 
-  const login = async (email: string, password: string) => {
-    const data = await AuthService.login(email, password);
+  const login = async (email: string, password: string, secretCode: string) => {
+    const data = await AuthService.login(email, password, secretCode);
     setUser(data.user);
     setToken(data.token);
     localStorage.setItem("opssphere_jwt_token", data.token);

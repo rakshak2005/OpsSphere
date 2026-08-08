@@ -13,6 +13,7 @@ import { InventoryPage } from "./pages/inventory/InventoryPage";
 import { ChallanListPage } from "./pages/challans/ChallanListPage";
 import { ChallanCreatePage } from "./pages/challans/ChallanCreatePage";
 import { ChallanDetailPage } from "./pages/challans/ChallanDetailPage";
+import { ReportsPage } from "./pages/reports/ReportsPage";
 import { UserManagementPage } from "./pages/users/UserManagementPage";
 import { Forbidden403 } from "./pages/system/Forbidden403";
 import { NotFound404 } from "./pages/system/NotFound404";
@@ -45,6 +46,8 @@ function App() {
             <Route path="challans" element={<ChallanListPage />} />
             <Route path="challans/create" element={<ChallanCreatePage />} />
             <Route path="challans/:id" element={<ChallanDetailPage />} />
+
+            <Route path="reports" element={<ReportsPage />} />
 
             <Route element={<RequireRole allowedRoles={[RoleEnum.ADMIN]} />}>
               <Route path="users" element={<UserManagementPage />} />

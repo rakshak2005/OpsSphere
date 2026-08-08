@@ -10,6 +10,7 @@ import {
   LogOut,
   User as UserIcon,
   X,
+  BarChart3,
 } from "lucide-react";
 import { NAVIGATION_ITEMS } from "../../constants/navigation";
 import { RoleEnum, type User } from "../../types/auth.types";
@@ -29,6 +30,7 @@ const iconMap: Record<string, React.ElementType> = {
   Warehouse,
   FileText,
   UserCog,
+  BarChart3,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -45,17 +47,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800">
-      {/* Brand Logo Header */}
-      <div className="flex items-center justify-between h-16 px-6 bg-slate-950/50 border-b border-slate-800">
+    <div className="flex flex-col h-full bg-[#0B1224] text-[#94A3B8] border-r border-[#1E293B]">
+      {/* Brand Header */}
+      <div className="flex items-center justify-between h-20 px-6 border-b border-[#1E293B] shrink-0 bg-[#070B14]/40">
         <Link to="/dashboard" className="flex items-center gap-3">
-          <img src={logoImg} alt="OpsSphere Logo" className="w-8 h-8 object-contain shrink-0 drop-shadow-sm" />
-          <div>
-            <span className="text-base font-bold text-white tracking-wide block leading-none">
+          <img src={logoImg} alt="OpsSphere Logo" className="w-9 h-9 object-contain shrink-0" />
+          <div className="space-y-0.5">
+            <span className="text-lg font-extrabold text-white tracking-tight block leading-none">
               OpsSphere
             </span>
-            <span className="text-[10px] uppercase font-semibold text-cyan-400 tracking-wider block mt-0.5">
-              ERP + CRM Portal
+            <span className="text-[10px] uppercase font-bold text-[#64748B] tracking-wider block">
+              ERP + CRM PORTAL
             </span>
           </div>
         </Link>
@@ -70,9 +72,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-        <div className="px-3 mb-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-          Main Navigation
+      <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
+        <div className="px-4 mb-4 text-[10px] font-bold text-[#475569] uppercase tracking-widest">
+          MAIN
         </div>
         {filteredNavItems.map((item) => {
           const IconComponent = iconMap[item.icon] || LayoutDashboard;
@@ -83,31 +85,31 @@ export const Sidebar: React.FC<SidebarProps> = ({
               key={item.name}
               to={item.href}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
+              className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all duration-200 ${
                 isActive
-                  ? "bg-indigo-600 text-white shadow-xs font-semibold"
-                  : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                  ? "bg-[#4F46E5] text-white shadow-lg shadow-[#4F46E5]/25"
+                  : "text-[#94A3B8] hover:text-white hover:bg-[#111A30]/50"
               }`}
             >
-              <IconComponent className={`w-5 h-5 ${isActive ? "text-white" : "text-slate-400"}`} />
+              <IconComponent className={`w-5 h-5 ${isActive ? "text-white" : "text-[#556987]"}`} />
               <span>{item.name}</span>
             </Link>
           );
         })}
       </nav>
 
-      {/* User Profile & Logout Drawer Footer */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/40">
+      {/* Footer User Info Panel */}
+      <div className="p-5 border-t border-[#1E293B] bg-[#070B14]/40 shrink-0">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 font-semibold shrink-0">
-              <UserIcon className="w-4 h-4 text-slate-400" />
+            <div className="w-10 h-10 rounded-full bg-[#111A30] border border-[#1E293B] flex items-center justify-center shrink-0">
+              <UserIcon className="w-4.5 h-4.5 text-[#556987]" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate">
-                {user?.name || "Portal User"}
+              <p className="text-xs font-bold text-white truncate leading-tight">
+                {user?.name || "System Admin"}
               </p>
-              <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 uppercase tracking-wider">
+              <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-widest mt-1">
                 {userRole}
               </span>
             </div>
@@ -116,9 +118,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             onClick={onLogout}
             title="Logout of session"
-            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition cursor-pointer"
+            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-[#111A30] rounded-lg transition cursor-pointer"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-4.5 h-4.5" />
           </button>
         </div>
       </div>
@@ -134,10 +136,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-[#0B1224]/80 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-slate-900">
+          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-[#0B1224]">
             {sidebarContent}
           </div>
         </div>

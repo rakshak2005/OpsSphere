@@ -33,6 +33,11 @@ export const createUserSchema = z.object({
         invalid_type_error: "Invalid role value",
       })
       .default(Role.SALES),
+    secretCode: z
+      .string({
+        required_error: "Secret code is required",
+      })
+      .min(1, "Secret code is required"),
   }),
 });
 
@@ -46,6 +51,9 @@ export const loginUserSchema = z.object({
       .email("Invalid email address"),
     password: z.string({
       required_error: "Password is required",
+    }),
+    secretCode: z.string({
+      required_error: "Secret code is required",
     }),
   }),
 });

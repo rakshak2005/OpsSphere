@@ -45,12 +45,18 @@ The server will bind to port `5000` and listen for requests at `http://localhost
 
 Use these seeded logins to test authorization restrictions. All accounts use passwords hashed via Bcrypt.
 
-| Role | Test Email | Password | Allowed Scopes / Modules |
-|---|---|---|---|
-| **ADMIN** | `admin@opssphere.com` | `admin123` | Full Access (Users, Customers, Products, Inventory, Challans) |
-| **SALES** | `sales@opssphere.com` | `sales123` | CRM Customers, Issuing/Confirming Challans (Read-only catalog) |
-| **WAREHOUSE** | `warehouse@opssphere.com` | `warehouse123` | ERP Products catalog, Stock Control audits (Read-only challans) |
-| **ACCOUNTS** | `accounts@opssphere.com` | `accounts123` | Portal-wide Read-only Access (Audits & Challan checks) |
+| Role | Test Email | Password | Secret Code | Person / User Account | Allowed Scopes / Modules |
+|---|---|---|---|---|---|
+| **ADMIN** | `admin@opssphere.com` | `admin123` | `000` | Generic System Admin | Full Access (Users, Customers, Products, Inventory, Challans) |
+| **ADMIN** | `manoj@opssphere.com` | `admin123` | `111` | Manoj (Admin) | Full Access (Users, Customers, Products, Inventory, Challans) |
+| **ADMIN** | `vinay@opssphere.com` | `admin123` | `222` | Vinay (Admin) | Full Access (Users, Customers, Products, Inventory, Challans) |
+| **SALES** | `sales@opssphere.com` | `sales123` | `999` | Generic Sales Executive | CRM Customers, Issuing/Confirming Challans (Read-only catalog) |
+| **SALES** | `leo@opssphere.com` | `sales123` | `333` | Leo (Sales) | CRM Customers, Issuing/Confirming Challans (Read-only catalog) |
+| **SALES** | `hari@opssphere.com` | `sales123` | `444` | Hari (Sales) | CRM Customers, Issuing/Confirming Challans (Read-only catalog) |
+| **WAREHOUSE** | `warehouse@opssphere.com` | `warehouse123` | `888` | Generic Warehouse Manager | ERP Products catalog, Stock Control audits (Read-only challans) |
+| **WAREHOUSE** | `anusha@opssphere.com` | `warehouse123` | `555` | Anusha (Warehouse) | ERP Products catalog, Stock Control audits (Read-only challans) |
+| **WAREHOUSE** | `rakshak@opssphere.com` | `warehouse123` | `666` | Rakshak (Warehouse) | ERP Products catalog, Stock Control audits (Read-only challans) |
+| **ACCOUNTS** | `accounts@opssphere.com` | `accounts123` | `777` | Generic Finance Controller | Portal-wide Read-only Access (Audits & Challan checks) |
 
 ---
 
@@ -68,7 +74,8 @@ All route paths must be prefixed with `http://localhost:5000/api/v1`.
   ```json
   {
     "email": "admin@opssphere.com",
-    "password": "admin123"
+    "password": "admin123",
+    "secretCode": "000"
   }
   ```
 * **Success Response (200 OK)**:

@@ -11,16 +11,16 @@ const api_response_1 = require("../utils/api-response");
 const catch_async_1 = require("../utils/catch-async");
 /**
  * Handle POST /auth/login request.
- * Verifies email/password and returns a stateless session token.
+ * Verifies email/password/secretCode and returns a stateless session token.
  */
 exports.login = (0, catch_async_1.catchAsync)(async (req, res) => {
-    const { email, password } = req.body;
-    // 1. Fetch user by email (includes the password hash)
-    const user = await user_service_1.UserService.getUserByEmail(email);
+    const { email, password, secretCode } = req.body;
+    // 1. Fetch user by secretCode (since codes are unique and map to the exact person logging in)
+    const user = await user_service_1.UserService.getUserBySecretCode(secretCode);
     if (!user) {
         res.status(401).json({
             success: false,
-            message: "Invalid email or password",
+            message: "Invalid secret user code",
         });
         return;
     }
@@ -33,15 +33,18 @@ exports.login = (0, catch_async_1.catchAsync)(async (req, res) => {
         });
         return;
     }
-    // 3. Generate JWT
+    // 3. Log User Login activity in DB
+    await user_service_1.UserService.logActivity(user.id, "LOGIN", `Successful login by user ${user.name}`);
+    // 4. Generate JWT
     const token = (0, jwt_1.signToken)({ id: user.id, role: user.role });
-    // 4. Return sanitized user metadata (excluding password)
+    // 5. Return sanitized user metadata (excluding password)
     const sanitizedUser = {
         id: user.id,
         name: user.name,
         email: user.email,
         role: user.role,
         isActive: user.isActive,
+        secretCode: user.secretCode,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
     };

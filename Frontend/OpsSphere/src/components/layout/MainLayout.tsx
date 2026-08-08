@@ -24,7 +24,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col lg:flex-row antialiased">
+    <div className="min-h-screen bg-[#F6F8FC] flex flex-col lg:flex-row antialiased text-[#0F172A]">
       <Sidebar
         user={user}
         onLogout={onLogout}

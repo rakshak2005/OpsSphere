@@ -47,3 +47,12 @@
 .bg-surface-elevated {
   background-color: var(--surface-elevated);
 }
+
+.glass-card {
+  background: rgba(10, 15, 25, 0.88) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35) !important;
+  padding: 44px !important;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, XCircle, User as UserIcon, Calendar, Loader2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, XCircle, User as UserIcon, Calendar, Loader2, Download } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
 import { ConfirmDialog } from "../../components/ui/ConfirmDialog";
@@ -8,6 +8,7 @@ import { ChallanService } from "../../services/challan.service";
 import { useAuth } from "../../context/AuthContext";
 import { RoleEnum } from "../../types/auth.types";
 import type { Challan } from "../../types/challan.types";
+import logoImg from "../../assets/logo.png";
 
 export const ChallanDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -88,10 +89,41 @@ export const ChallanDetailPage: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <Button variant="outline" size="sm" onClick={() => navigate(-1)} icon={<ArrowLeft className="w-4 h-4" />}>
-          Back to Directory
-        </Button>
+      
+      {/* Print styles style block */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          body {
+            background: white !important;
+            color: black !important;
+          }
+          aside, header, nav, button, .print\\:hidden {
+            display: none !important;
+          }
+          main {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+          .print-card {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+        }
+      ` }} />
+
+      <div className="flex items-center justify-between print:hidden">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => navigate(-1)} icon={<ArrowLeft className="w-4 h-4" />}>
+            Back to Directory
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()} icon={<Download className="w-4 h-4" />}>
+            Download PDF
+          </Button>
+        </div>
+        
         {isDraft && canConfirmOrCancel && (
           <div className="flex items-center gap-2">
             <Button
@@ -114,24 +146,27 @@ export const ChallanDetailPage: React.FC = () => {
         )}
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6 print-card">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-6">
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-slate-900">{challan.challanNumber}</h1>
-              <Badge
-                variant={
-                  challan.status === "CONFIRMED"
-                    ? "success"
-                    : challan.status === "DRAFT"
-                    ? "warning"
-                    : "danger"
-                }
-              >
-                {challan.status}
-              </Badge>
+          <div className="flex items-center gap-4">
+            <img src={logoImg} alt="OpsSphere Logo" className="w-12 h-12 object-contain" />
+            <div>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-bold text-slate-900">{challan.challanNumber}</h1>
+                <Badge
+                  variant={
+                    challan.status === "CONFIRMED"
+                      ? "success"
+                      : challan.status === "DRAFT"
+                      ? "warning"
+                      : "danger"
+                  }
+                >
+                  {challan.status}
+                </Badge>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">Delivery Challan Reference Document</p>
             </div>
-            <p className="text-xs text-slate-400 mt-1">Delivery Challan Reference Document</p>
           </div>
           <div className="text-left sm:text-right text-xs text-slate-500 space-y-1">
             <p className="flex items-center gap-1.5 justify-start sm:justify-end">
@@ -182,6 +217,19 @@ export const ChallanDetailPage: React.FC = () => {
             </table>
           </div>
         </div>
+
+        {/* Invoice footer sign-offs for professional print looks */}
+        <div className="hidden print:flex items-center justify-between pt-16 text-xs border-t border-slate-100">
+          <div>
+            <div className="w-40 border-b border-slate-300 mb-1" />
+            <p className="text-slate-400 font-semibold uppercase tracking-wider">Receiver Signature</p>
+          </div>
+          <div className="text-right">
+            <div className="w-40 border-b border-slate-300 mb-1 ml-auto" />
+            <p className="text-slate-400 font-semibold uppercase tracking-wider">Authorized Signatory</p>
+          </div>
+        </div>
+
       </div>
 
       <ConfirmDialog

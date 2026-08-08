@@ -35,6 +35,11 @@ exports.createUserSchema = zod_1.z.object({
             invalid_type_error: "Invalid role value",
         })
             .default(Role.SALES),
+        secretCode: zod_1.z
+            .string({
+            required_error: "Secret code is required",
+        })
+            .min(1, "Secret code is required"),
     }),
 });
 exports.loginUserSchema = zod_1.z.object({
@@ -47,6 +52,9 @@ exports.loginUserSchema = zod_1.z.object({
             .email("Invalid email address"),
         password: zod_1.z.string({
             required_error: "Password is required",
+        }),
+        secretCode: zod_1.z.string({
+            required_error: "Secret code is required",
         }),
     }),
 });

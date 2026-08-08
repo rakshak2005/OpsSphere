@@ -8,6 +8,7 @@ async function main() {
 
   // 1. Clean existing database records
   console.log("🧹 Cleaning old records...");
+  await prisma.userActivity.deleteMany();
   await prisma.challanItem.deleteMany();
   await prisma.challan.deleteMany();
   await prisma.inventoryMovement.deleteMany();
@@ -23,45 +24,113 @@ async function main() {
   const warehousePassword = await bcrypt.hash("warehouse123", saltRounds);
   const accountsPassword = await bcrypt.hash("accounts123", saltRounds);
 
-  const admin = await prisma.user.create({
+  // Original generic role accounts
+  await prisma.user.create({
     data: {
       name: "System Admin",
       email: "admin@opssphere.com",
       password: adminPassword,
       role: Role.ADMIN,
+      secretCode: "000",
     },
   });
 
-  const sales = await prisma.user.create({
+  await prisma.user.create({
     data: {
       name: "Sales Executive",
       email: "sales@opssphere.com",
       password: salesPassword,
       role: Role.SALES,
+      secretCode: "999",
     },
   });
 
-  const warehouse = await prisma.user.create({
+  await prisma.user.create({
     data: {
       name: "Warehouse Manager",
       email: "warehouse@opssphere.com",
       password: warehousePassword,
       role: Role.WAREHOUSE,
+      secretCode: "888",
     },
   });
 
-  const accounts = await prisma.user.create({
+  await prisma.user.create({
     data: {
       name: "Finance Controller",
       email: "accounts@opssphere.com",
       password: accountsPassword,
       role: Role.ACCOUNTS,
+      secretCode: "777",
+    },
+  });
+
+  // Manoj & Vinay (Admins)
+  await prisma.user.create({
+    data: {
+      name: "Manoj (Admin)",
+      email: "manoj@opssphere.com",
+      password: adminPassword,
+      role: Role.ADMIN,
+      secretCode: "111",
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      name: "Vinay (Admin)",
+      email: "vinay@opssphere.com",
+      password: adminPassword,
+      role: Role.ADMIN,
+      secretCode: "222",
+    },
+  });
+
+  // Leo & Hari (Sales)
+  await prisma.user.create({
+    data: {
+      name: "Leo (Sales)",
+      email: "leo@opssphere.com",
+      password: salesPassword,
+      role: Role.SALES,
+      secretCode: "333",
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      name: "Hari (Sales)",
+      email: "hari@opssphere.com",
+      password: salesPassword,
+      role: Role.SALES,
+      secretCode: "444",
+    },
+  });
+
+  // Anusha & Rakshak (Warehouse)
+  await prisma.user.create({
+    data: {
+      name: "Anusha (Warehouse)",
+      email: "anusha@opssphere.com",
+      password: warehousePassword,
+      role: Role.WAREHOUSE,
+      secretCode: "555",
+    },
+  });
+
+  await prisma.user.create({
+    data: {
+      name: "Rakshak (Warehouse)",
+      email: "rakshak@opssphere.com",
+      password: warehousePassword,
+      role: Role.WAREHOUSE,
+      secretCode: "666",
     },
   });
 
   // 3. Create test products
   console.log("📦 Creating product catalog...");
-  const laptop = await prisma.product.create({
+  await prisma.product.create({
     data: {
       productName: "Dell Enterprise Laptop",
       sku: "DL-XPS15-01",
@@ -73,7 +142,7 @@ async function main() {
     },
   });
 
-  const mouse = await prisma.product.create({
+  await prisma.product.create({
     data: {
       productName: "Logitech MX Master 3S",
       sku: "LG-MXM3S-02",
@@ -85,13 +154,13 @@ async function main() {
     },
   });
 
-  const monitor = await prisma.product.create({
+  await prisma.product.create({
     data: {
       productName: "LG UltraGear 27'",
       sku: "LG-UG27-03",
       category: "Electronics",
       unitPrice: 22000,
-      currentStock: 4, // Starts below minimumStock (5) to trigger low stock filters
+      currentStock: 4,
       minimumStock: 5,
       warehouseLocation: "Rack A-05",
     },
@@ -99,7 +168,7 @@ async function main() {
 
   // 4. Create test customers
   console.log("🤝 Creating customer registry...");
-  const customer1 = await prisma.customer.create({
+  await prisma.customer.create({
     data: {
       customerName: "Rahul Traders",
       mobile: "9876543210",
@@ -113,7 +182,7 @@ async function main() {
     },
   });
 
-  const customer2 = await prisma.customer.create({
+  await prisma.customer.create({
     data: {
       customerName: "Sharma Retail Hub",
       mobile: "9123456789",
@@ -126,15 +195,20 @@ async function main() {
     },
   });
 
+  await prisma.customer.create({
+    data: {
+      customerName: "dayanadha",
+      mobile: "08105555265",
+      email: "dayanada@gmail.com",
+      businessName: "dayanadha enterprices",
+      customerType: CustomerType.WHOLESALE,
+      address: "M G Road, Bangalore",
+      status: CustomerStatus.LEAD,
+      notes: "Follow up regarding retail logs.",
+    },
+  });
+
   console.log("✨ Seeding completed successfully!");
-  console.log(`
-  Login Credentials:
-  ----------------------------------------
-  ADMIN:      admin@opssphere.com     / admin123
-  SALES:      sales@opssphere.com     / sales123
-  WAREHOUSE:  warehouse@opssphere.com / warehouse123
-  ACCOUNTS:   accounts@opssphere.com  / accounts123
-  `);
 }
 
 main()

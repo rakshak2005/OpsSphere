@@ -40,6 +40,12 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
+    name: "Reports",
+    href: "/reports",
+    icon: "BarChart3",
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
+  },
+  {
     name: "User Management",
     href: "/users",
     icon: "UserCog",
