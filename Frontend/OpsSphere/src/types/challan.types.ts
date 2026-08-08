@@ -8,9 +8,9 @@ export interface ChallanItem {
   challanId: string;
   productId: string;
   quantity: number;
-  unitPrice: number;
-  productSnapshotName: string;
-  productSnapshotSku: string;
+  unitPriceSnapshot: number;
+  productNameSnapshot: string;
+  skuSnapshot: string;
   product?: Product;
 }
 

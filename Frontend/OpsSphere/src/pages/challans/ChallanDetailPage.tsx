@@ -204,12 +204,12 @@ export const ChallanDetailPage: React.FC = () => {
               <tbody className="divide-y divide-slate-100">
                 {challan.items?.map((item) => (
                   <tr key={item.id}>
-                    <td className="px-4 py-3 font-semibold text-slate-900">{item.productSnapshotName}</td>
-                    <td className="px-4 py-3 font-mono text-slate-500">{item.productSnapshotSku}</td>
-                    <td className="px-4 py-3 tabular-nums">₹{Number(item.unitPrice).toLocaleString()}</td>
+                    <td className="px-4 py-3 font-semibold text-slate-900">{item.productNameSnapshot}</td>
+                    <td className="px-4 py-3 font-mono text-slate-500">{item.skuSnapshot}</td>
+                    <td className="px-4 py-3 tabular-nums">₹{Number(item.unitPriceSnapshot).toLocaleString()}</td>
                     <td className="px-4 py-3 font-bold text-slate-800 tabular-nums">{item.quantity}</td>
                     <td className="px-4 py-3 font-bold text-slate-900 text-right tabular-nums">
-                      ₹{(Number(item.unitPrice) * item.quantity).toLocaleString()}
+                      ₹{(Number(item.unitPriceSnapshot) * item.quantity).toLocaleString()}
                     </td>
                   </tr>
                 ))}
