@@ -112,7 +112,7 @@ export const InventoryPage: React.FC = () => {
 
     // Open native client mail draft
     window.location.href = `mailto:procurement@opssphere.com?subject=${subject}&body=${body}`;
-    
+
     setRequestModalOpen(false);
     setRequestProductId("");
     setRequestQuantity("10");

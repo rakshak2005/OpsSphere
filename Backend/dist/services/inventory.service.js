@@ -103,6 +103,7 @@ class InventoryService {
                         select: {
                             productName: true,
                             sku: true,
+                            unitPrice: true,
                         },
                     },
                     createdBy: {
