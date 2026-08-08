@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ChallanStatus } from "../generated/prisma";
+import { ChallanStatus } from "@prisma/client";
 import { ChallanService } from "../services/challan.service";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";

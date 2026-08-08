@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma";
-import { MovementType, Prisma } from "../generated/prisma";
+import { MovementType, Prisma } from "@prisma/client";
 
 export class InventoryService {
   /**

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CustomerType, CustomerStatus } from "../generated/prisma";
+import { CustomerType, CustomerStatus } from "@prisma/client";
 
 export const createCustomerSchema = z.object({
   body: z.object({

@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma";
-import { CustomerType, CustomerStatus, Prisma } from "../generated/prisma";
+import { CustomerType, CustomerStatus, Prisma } from "@prisma/client";
 
 export class CustomerService {
   /**

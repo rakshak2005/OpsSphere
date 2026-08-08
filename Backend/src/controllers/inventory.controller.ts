@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MovementType } from "../generated/prisma";
+import { MovementType } from "@prisma/client";
 import { InventoryService } from "../services/inventory.service";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";

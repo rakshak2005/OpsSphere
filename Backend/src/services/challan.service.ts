@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma";
-import { ChallanStatus, MovementType, Prisma } from "../generated/prisma";
+import { ChallanStatus, MovementType, Prisma } from "@prisma/client";
 
 export class ChallanService {
   /**

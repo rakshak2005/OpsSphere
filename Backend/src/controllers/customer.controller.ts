@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CustomerStatus } from "../generated/prisma";
+import { CustomerStatus } from "@prisma/client";
 import { CustomerService } from "../services/customer.service";
 import prisma from "../lib/prisma";
 import { sendResponse } from "../utils/api-response";
