@@ -84,7 +84,7 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* Right: Login Card Container (Centered vertically, shifted slightly left of the right edge) */}
-      <div className="w-full lg:w-auto h-full flex items-center justify-center lg:justify-end lg:pr-16 z-10 relative">
+      <div className="w-full lg:w-auto h-full flex items-center justify-center lg:justify-end lg:pr-40 z-10 relative">
         
         {/* Whitish High-Clarity Authentication Panel */}
         <div
