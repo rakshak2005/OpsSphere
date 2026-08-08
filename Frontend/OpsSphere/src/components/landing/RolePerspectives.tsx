@@ -53,14 +53,14 @@ export const RolePerspectives: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 space-y-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-white border border-[#3B82F6]/30 px-3.5 py-1 rounded-full shadow-xs">
+        <div className="text-center max-w-3xl mx-auto">
+          <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-white border border-[#3B82F6]/30 px-3.5 py-1 rounded-full shadow-xs mb-3.5">
             DYNAMIC ROLE PERSPECTIVES
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0D1420] tracking-tight">
             One platform. Different perspectives.
           </h2>
-          <p className="text-sm sm:text-base text-slate-600 font-medium">
+          <p className="text-sm sm:text-base text-slate-600 font-medium mt-3">
             Select a role to preview how the backend customizes workspace controls and data feeds.
           </p>
         </div>

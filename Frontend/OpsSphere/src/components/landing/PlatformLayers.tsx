@@ -37,14 +37,14 @@ export const PlatformLayers: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-blue-500/10 border border-blue-500/30 px-3.5 py-1 rounded-full">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-blue-500/10 border border-blue-500/30 px-3.5 py-1 rounded-full mb-3.5">
             SYSTEM ARCHITECTURE
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             One system. Four operational layers.
           </h2>
-          <p className="text-base text-slate-400">
+          <p className="text-base text-slate-400 mt-3">
             Connect every part of your operation without forcing teams into disconnected tools.
           </p>
         </div>
