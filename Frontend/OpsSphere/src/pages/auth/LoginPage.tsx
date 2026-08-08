@@ -86,17 +86,15 @@ export const LoginPage: React.FC = () => {
       {/* Right: Login Card Container (Centered vertically, shifted slightly left of the right edge) */}
       <div className="w-full lg:w-auto h-full flex items-center justify-center lg:justify-end lg:pr-16 z-10 relative">
         
-        {/* Whitish Glassmorphism Authentication Panel */}
+        {/* Whitish High-Clarity Authentication Panel */}
         <div
           className="w-full sm:w-[440px] rounded-[24px] flex flex-col justify-between"
           style={{
             maxWidth: "440px",
             padding: "36px",
-            background: "rgba(255, 255, 255, 0.82)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            border: "1px solid rgba(255, 255, 255, 0.6)",
-            boxShadow: "0 25px 70px rgba(0, 0, 0, 0.25)",
+            background: "rgba(255, 255, 255, 0.96)",
+            border: "1px solid rgba(255, 255, 255, 0.9)",
+            boxShadow: "0 25px 60px -15px rgba(0, 0, 0, 0.35)",
           }}
         >
           <div className="space-y-6">
