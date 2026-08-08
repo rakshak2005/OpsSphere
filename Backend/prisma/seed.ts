@@ -129,9 +129,10 @@ async function main() {
   });
 
   // 3. Create test catalog items
-  console.log("📦 Creating product catalog...");
-  await prisma.product.create({
-    data: {
+  console.log("📦 Creating product catalog (10 items total)...");
+  
+  const products = [
+    {
       productName: "Dell UltraSharp 24 Monitor",
       sku: "DELL-US24-01",
       category: "Electronics",
@@ -140,10 +141,7 @@ async function main() {
       minimumStock: 8,
       warehouseLocation: "Rack A-12",
     },
-  });
-
-  await prisma.product.create({
-    data: {
+    {
       productName: "Logitech MX Master 3S",
       sku: "LG-MXM3S-02",
       category: "Accessories",
@@ -152,10 +150,7 @@ async function main() {
       minimumStock: 10,
       warehouseLocation: "Rack B-03",
     },
-  });
-
-  await prisma.product.create({
-    data: {
+    {
       productName: "LG UltraGear 27'",
       sku: "LG-UG27-03",
       category: "Electronics",
@@ -164,7 +159,74 @@ async function main() {
       minimumStock: 5,
       warehouseLocation: "Rack A-05",
     },
-  });
+    {
+      productName: "Keychron K2 V2 Keyboard",
+      sku: "KC-K2V2-04",
+      category: "Accessories",
+      unitPrice: 7999,
+      currentStock: 35,
+      minimumStock: 6,
+      warehouseLocation: "Rack B-04",
+    },
+    {
+      productName: "Sony WH-1000XM5",
+      sku: "SN-XM5-05",
+      category: "Electronics",
+      unitPrice: 29990,
+      currentStock: 18,
+      minimumStock: 4,
+      warehouseLocation: "Rack A-08",
+    },
+    {
+      productName: "Apple MacBook Air M3",
+      sku: "AP-MBA-M3",
+      category: "Electronics",
+      unitPrice: 114900,
+      currentStock: 12,
+      minimumStock: 3,
+      warehouseLocation: "Rack C-01",
+    },
+    {
+      productName: "Ergonomic Office Chair",
+      sku: "FUR-ERGO-06",
+      category: "Furniture",
+      unitPrice: 12500,
+      currentStock: 15,
+      minimumStock: 2,
+      warehouseLocation: "Section D-01",
+    },
+    {
+      productName: "Anker USB-C Hub 8-in-1",
+      sku: "AK-HUB8-07",
+      category: "Accessories",
+      unitPrice: 4200,
+      currentStock: 60,
+      minimumStock: 15,
+      warehouseLocation: "Rack B-09",
+    },
+    {
+      productName: "Seagate Expansion 2TB",
+      sku: "SG-EXT2TB-08",
+      category: "Storage",
+      unitPrice: 5800,
+      currentStock: 22,
+      minimumStock: 5,
+      warehouseLocation: "Rack B-15",
+    },
+    {
+      productName: "Samsung T7 Shield 1TB",
+      sku: "SS-SSD1TB-09",
+      category: "Storage",
+      unitPrice: 9500,
+      currentStock: 3,
+      minimumStock: 5,
+      warehouseLocation: "Rack B-16",
+    }
+  ];
+
+  for (const prod of products) {
+    await prisma.product.create({ data: prod });
+  }
 
   // 4. Create 10 test customers
   console.log("🤝 Creating customer registry (10 total)...");
