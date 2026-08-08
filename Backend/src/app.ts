@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import { config } from "./config";
 import { AppError } from "./utils/app-error";
+import apiRouter from "./routes";
 
 const app: Application = express();
 
@@ -34,6 +35,9 @@ app.get("/health", (req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// Mount versioned API routes
+app.use("/api/v1", apiRouter);
 
 // Global Error Handler Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

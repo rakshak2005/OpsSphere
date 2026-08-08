@@ -8,6 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const config_1 = require("./config");
+const routes_1 = __importDefault(require("./routes"));
 const app = (0, express_1.default)();
 // Request logging middleware
 app.use((0, morgan_1.default)("dev"));
@@ -30,6 +31,8 @@ app.get("/health", (req, res) => {
         timestamp: new Date().toISOString(),
     });
 });
+// Mount versioned API routes
+app.use("/api/v1", routes_1.default);
 // Global Error Handler Middleware
 app.use((err, req, res, next) => {
     let statusCode = err.statusCode || 500;

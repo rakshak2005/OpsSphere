@@ -18,16 +18,24 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String              @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String              @unique
   password  String
-  role      Role     @default(SALES)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role                @default(SALES)
+  isActive  Boolean             @default(true)
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  movements InventoryMovement[]
+  challans  Challan[]
 
   @@map("users")
+}
+
+enum CustomerType {
+  RETAIL
+  WHOLESALE
+  DISTRIBUTOR
 }
 
 enum CustomerStatus {
@@ -43,7 +51,7 @@ model Customer {
   email        String         @unique
   businessName String?
   gstNumber    String?
-  customerType String         @default("Wholesale")
+  customerType CustomerType   @default(WHOLESALE)
   address      String
   status       CustomerStatus @default(LEAD)
   followUpDate DateTime?
@@ -78,15 +86,18 @@ enum MovementType {
 }
 
 model InventoryMovement {
-  id        String       @id @default(uuid())
-  productId String
-  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity  Int
-  type      MovementType
-  reason    String
-  createdAt DateTime     @default(now())
+  id          String       @id @default(uuid())
+  productId   String
+  product     Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity    Int
+  type        MovementType
+  reason      String
+  createdById String
+  createdBy   User         @relation(fields: [createdById], references: [id])
+  createdAt   DateTime     @default(now())
 
   @@index([productId])
+  @@index([createdById])
   @@map("inventory_movements")
 }
 
@@ -97,24 +108,32 @@ enum ChallanStatus {
 }
 
 model Challan {
-  id         String        @id @default(uuid())
-  customerId String
-  customer   Customer      @relation(fields: [customerId], references: [id])
-  status     ChallanStatus @default(DRAFT)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  items      ChallanItem[]
+  id            String        @id @default(uuid())
+  challanNumber String        @unique
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  status        ChallanStatus @default(DRAFT)
+  createdById   String
+  createdBy     User          @relation(fields: [createdById], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  items         ChallanItem[]
 
+  @@index([customerId])
+  @@index([createdById])
   @@map("challans")
 }
 
 model ChallanItem {
-  id        String  @id @default(uuid())
-  challanId String
-  challan   Challan @relation(fields: [challanId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
+  id                  String  @id @default(uuid())
+  challanId           String
+  challan             Challan @relation(fields: [challanId], references: [id], onDelete: Cascade)
+  productId           String
+  product             Product @relation(fields: [productId], references: [id])
+  quantity            Int
+  productNameSnapshot String
+  skuSnapshot         String
+  unitPriceSnapshot   Float
 
   @@index([challanId])
   @@index([productId])
