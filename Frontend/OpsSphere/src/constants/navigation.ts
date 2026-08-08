@@ -1,4 +1,4 @@
-import { Role } from "../types/auth.types";
+import { RoleEnum, type Role } from "../types/auth.types";
 
 export interface NavItem {
   name: string;
@@ -13,36 +13,36 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     name: "Dashboard",
     href: "/dashboard",
     icon: "LayoutDashboard",
-    allowedRoles: [Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS],
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
     name: "Customers",
     href: "/customers",
     icon: "Users",
-    allowedRoles: [Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS],
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
     name: "Products",
     href: "/products",
     icon: "Package",
-    allowedRoles: [Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS],
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
     name: "Inventory",
     href: "/inventory",
     icon: "Warehouse",
-    allowedRoles: [Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS],
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
     name: "Delivery Challans",
     href: "/challans",
     icon: "FileText",
-    allowedRoles: [Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS],
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
     name: "User Management",
     href: "/users",
     icon: "UserCog",
-    allowedRoles: [Role.ADMIN],
+    allowedRoles: [RoleEnum.ADMIN],
   },
 ];

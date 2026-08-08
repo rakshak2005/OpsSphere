@@ -10,10 +10,10 @@ import {
   LogOut,
   User as UserIcon,
   X,
-  Boxes,
 } from "lucide-react";
 import { NAVIGATION_ITEMS } from "../../constants/navigation";
-import { User, Role } from "../../types/auth.types";
+import { RoleEnum, type User } from "../../types/auth.types";
+import logoImg from "../../assets/logo.png";
 
 interface SidebarProps {
   user: User | null;
@@ -38,9 +38,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setMobileOpen,
 }) => {
   const location = useLocation();
-  const userRole = user?.role || Role.SALES;
+  const userRole = user?.role || RoleEnum.SALES;
 
-  // Filter navigation items based on backend verified role permissions
   const filteredNavItems = NAVIGATION_ITEMS.filter((item) =>
     item.allowedRoles.includes(userRole)
   );
@@ -50,23 +49,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Brand Logo Header */}
       <div className="flex items-center justify-between h-16 px-6 bg-slate-950/50 border-b border-slate-800">
         <Link to="/dashboard" className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-sm font-bold">
-            <Boxes className="w-5 h-5 text-white" />
-          </div>
+          <img src={logoImg} alt="OpsSphere Logo" className="w-8 h-8 object-contain shrink-0 drop-shadow-sm" />
           <div>
-            <span className="text-base font-bold text-white tracking-wide block">
+            <span className="text-base font-bold text-white tracking-wide block leading-none">
               OpsSphere
             </span>
-            <span className="text-[10px] uppercase font-semibold text-indigo-400 tracking-wider block">
+            <span className="text-[10px] uppercase font-semibold text-cyan-400 tracking-wider block mt-0.5">
               ERP + CRM Portal
             </span>
           </div>
         </Link>
 
-        {/* Mobile Close Button */}
         <button
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+          className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
           aria-label="Close menu"
         >
           <X className="w-5 h-5" />
@@ -89,7 +85,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                 isActive
-                  ? "bg-indigo-600 text-white shadow-sm font-semibold"
+                  ? "bg-indigo-600 text-white shadow-xs font-semibold"
                   : "text-slate-400 hover:text-white hover:bg-slate-800/60"
               }`}
             >
@@ -120,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             onClick={onLogout}
             title="Logout of session"
-            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition"
+            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-lg transition cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>
@@ -131,21 +127,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
       <aside className="hidden lg:block w-64 shrink-0 h-screen sticky top-0">
         {sidebarContent}
       </aside>
 
-      {/* Mobile Slide-out Drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
-
-          {/* Drawer content */}
           <div className="relative flex-1 flex flex-col max-w-xs w-full bg-slate-900">
             {sidebarContent}
           </div>

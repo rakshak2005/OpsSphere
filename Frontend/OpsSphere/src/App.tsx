@@ -1,20 +1,57 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { ProtectedLayout, RequireRole } from "./components/layout/ProtectedLayout";
+import { LoginPage } from "./pages/auth/LoginPage";
+import { DashboardPage } from "./pages/dashboard/DashboardPage";
+import { CustomerListPage } from "./pages/customers/CustomerListPage";
+import { CustomerCreatePage } from "./pages/customers/CustomerCreatePage";
+import { CustomerDetailPage } from "./pages/customers/CustomerDetailPage";
+import { ProductListPage } from "./pages/products/ProductListPage";
+import { ProductCreatePage } from "./pages/products/ProductCreatePage";
+import { InventoryPage } from "./pages/inventory/InventoryPage";
+import { ChallanListPage } from "./pages/challans/ChallanListPage";
+import { ChallanCreatePage } from "./pages/challans/ChallanCreatePage";
+import { ChallanDetailPage } from "./pages/challans/ChallanDetailPage";
+import { UserManagementPage } from "./pages/users/UserManagementPage";
+import { Forbidden403 } from "./pages/system/Forbidden403";
+import { NotFound404 } from "./pages/system/NotFound404";
+import { RoleEnum } from "./types/auth.types";
+
 function App() {
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-sm border border-slate-200 p-6 text-center">
-        <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-4 font-bold text-xl">
-          OS
-        </div>
-        <h1 className="text-2xl font-semibold text-slate-900 mb-2">OpsSphere ERP</h1>
-        <p className="text-slate-600 text-sm mb-6">
-          Frontend Foundation & Scaffolding Initialized.
-        </p>
-        <div className="inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200">
-          Environment Ready
-        </div>
-      </div>
-    </div>
-  )
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route element={<ProtectedLayout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+
+            <Route path="customers" element={<CustomerListPage />} />
+            <Route path="customers/create" element={<CustomerCreatePage />} />
+            <Route path="customers/:id" element={<CustomerDetailPage />} />
+
+            <Route path="products" element={<ProductListPage />} />
+            <Route path="products/create" element={<ProductCreatePage />} />
+
+            <Route path="inventory" element={<InventoryPage />} />
+
+            <Route path="challans" element={<ChallanListPage />} />
+            <Route path="challans/create" element={<ChallanCreatePage />} />
+            <Route path="challans/:id" element={<ChallanDetailPage />} />
+
+            <Route element={<RequireRole allowedRoles={[RoleEnum.ADMIN]} />}>
+              <Route path="users" element={<UserManagementPage />} />
+            </Route>
+
+            <Route path="403" element={<Forbidden403 />} />
+            <Route path="*" element={<NotFound404 />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

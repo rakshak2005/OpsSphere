@@ -1,6 +1,7 @@
 import React from "react";
 import { Menu, Bell, User as UserIcon, LogOut } from "lucide-react";
-import { User } from "../../types/auth.types";
+import type { User } from "../../types/auth.types";
+import logoImg from "../../assets/logo.png";
 
 interface TopbarProps {
   user: User | null;
@@ -15,33 +16,33 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   return (
     <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-6 shadow-xs">
-      {/* Left Menu Toggle for Mobile */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => setMobileOpen(true)}
-          className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition"
+          className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition cursor-pointer"
           aria-label="Open sidebar menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="hidden sm:block">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-            Enterprise Portal
-          </h2>
-          <p className="text-sm font-medium text-slate-800">
-            OpsSphere Management Workspace
-          </p>
+        <div className="flex items-center gap-2.5">
+          <img src={logoImg} alt="OpsSphere Logo" className="w-6 h-6 object-contain hidden sm:block" />
+          <div>
+            <h2 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 leading-none">
+              Enterprise Portal
+            </h2>
+            <p className="text-sm font-semibold text-slate-900 mt-0.5">
+              OpsSphere Management Workspace
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Right Controls */}
       <div className="flex items-center gap-3">
-        {/* Notification Bell */}
         <button
           type="button"
           title="Notifications"
-          className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition"
+          className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition cursor-pointer"
         >
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-600 rounded-full ring-2 ring-white" />
@@ -49,7 +50,6 @@ export const Topbar: React.FC<TopbarProps> = ({
 
         <div className="h-6 w-px bg-slate-200 mx-1" />
 
-        {/* Profile Pill */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex flex-col text-right">
             <span className="text-sm font-medium text-slate-900 leading-none">
@@ -67,7 +67,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           <button
             onClick={onLogout}
             title="Logout"
-            className="sm:hidden p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+            className="sm:hidden p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
           </button>
