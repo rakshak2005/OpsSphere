@@ -101,6 +101,18 @@ export const LoginPage: React.FC = () => {
         >
           <div className="space-y-6">
 
+            {/* Back to Home */}
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400 hover:text-[#3B82F6] transition-colors duration-150 group"
+            >
+              <svg className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform duration-150" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+              </svg>
+              Back to Home
+            </button>
+
             {/* Header: Logo, Brand & Tagline */}
             <div className="space-y-3.5">
               <div className="flex items-center gap-2.5">
@@ -119,6 +131,7 @@ export const LoginPage: React.FC = () => {
                 </div>
               </div>
             </div>
+
 
             {/* Error Message */}
             {error && (
