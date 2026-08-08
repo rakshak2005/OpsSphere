@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCustomerSchema = exports.createCustomerSchema = void 0;
 const zod_1 = require("zod");
-const prisma_1 = require("../generated/prisma");
+const client_1 = require("@prisma/client");
 exports.createCustomerSchema = zod_1.z.object({
     body: zod_1.z.object({
         customerName: zod_1.z
@@ -20,19 +20,19 @@ exports.createCustomerSchema = zod_1.z.object({
         businessName: zod_1.z.string().trim().optional().nullable(),
         gstNumber: zod_1.z.string().trim().optional().nullable(),
         customerType: zod_1.z
-            .nativeEnum(prisma_1.CustomerType, {
+            .nativeEnum(client_1.CustomerType, {
             invalid_type_error: "Invalid customer type",
         })
-            .default(prisma_1.CustomerType.WHOLESALE),
+            .default(client_1.CustomerType.WHOLESALE),
         address: zod_1.z
             .string({ required_error: "Address is required" })
             .trim()
             .min(5, "Address must be at least 5 characters"),
         status: zod_1.z
-            .nativeEnum(prisma_1.CustomerStatus, {
+            .nativeEnum(client_1.CustomerStatus, {
             invalid_type_error: "Invalid customer status",
         })
-            .default(prisma_1.CustomerStatus.LEAD),
+            .default(client_1.CustomerStatus.LEAD),
         followUpDate: zod_1.z
             .string()
             .datetime({ message: "Invalid date format (ISO-8601 required)" })

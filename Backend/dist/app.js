@@ -13,8 +13,21 @@ const app = (0, express_1.default)();
 // Request logging middleware
 app.use((0, morgan_1.default)("dev"));
 // Enable Cross-Origin Resource Sharing
+// Supports multiple origins: FRONTEND_URL can be comma-separated list
+const allowedOrigins = config_1.config.frontendUrl
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
 app.use((0, cors_1.default)({
-    origin: config_1.config.frontendUrl,
+    origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, Render health checks)
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error(`CORS: Origin '${origin}' not allowed`), false);
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 }));
@@ -34,7 +47,7 @@ app.get("/health", (req, res) => {
 // Mount versioned API routes
 app.use("/api/v1", routes_1.default);
 // Global Error Handler Middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
     let statusCode = err.statusCode || 500;
     let message = err.message || "Internal Server Error";
     let errors = err.errors || [];

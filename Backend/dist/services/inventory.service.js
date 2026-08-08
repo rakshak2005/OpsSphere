@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InventoryService = void 0;
 const prisma_1 = __importDefault(require("../lib/prisma"));
-const prisma_2 = require("../generated/prisma");
+const client_1 = require("@prisma/client");
 class InventoryService {
     /**
      * Add stock to product and write IN movement record in an atomic transaction.
@@ -32,7 +32,7 @@ class InventoryService {
                 data: {
                     productId,
                     quantity,
-                    type: prisma_2.MovementType.IN,
+                    type: client_1.MovementType.IN,
                     reason,
                     createdById,
                 },
@@ -72,7 +72,7 @@ class InventoryService {
                 data: {
                     productId,
                     quantity,
-                    type: prisma_2.MovementType.OUT,
+                    type: client_1.MovementType.OUT,
                     reason,
                     createdById,
                 },

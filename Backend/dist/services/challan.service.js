@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChallanService = void 0;
 const prisma_1 = __importDefault(require("../lib/prisma"));
-const prisma_2 = require("../generated/prisma");
+const client_1 = require("@prisma/client");
 class ChallanService {
     /**
      * Fetch all challans with pagination and status filters.
@@ -96,7 +96,7 @@ class ChallanService {
                     challanNumber,
                     customerId,
                     createdById,
-                    status: prisma_2.ChallanStatus.DRAFT,
+                    status: client_1.ChallanStatus.DRAFT,
                 },
             });
             // 4. Create the ChallanItem rows with product snapshots
@@ -135,7 +135,7 @@ class ChallanService {
             if (!challan) {
                 throw { statusCode: 404, message: "Challan not found" };
             }
-            if (challan.status !== prisma_2.ChallanStatus.DRAFT) {
+            if (challan.status !== client_1.ChallanStatus.DRAFT) {
                 throw {
                     statusCode: 400,
                     message: `Only draft challans can be confirmed. Current status: ${challan.status}`,
@@ -170,7 +170,7 @@ class ChallanService {
                     data: {
                         productId: item.productId,
                         quantity: item.quantity,
-                        type: prisma_2.MovementType.OUT,
+                        type: client_1.MovementType.OUT,
                         reason: `Challan Dispatch: ${challan.challanNumber}`,
                         createdById: userId,
                     },
@@ -179,7 +179,7 @@ class ChallanService {
             // 5. Update Challan status to CONFIRMED
             return tx.challan.update({
                 where: { id },
-                data: { status: prisma_2.ChallanStatus.CONFIRMED },
+                data: { status: client_1.ChallanStatus.CONFIRMED },
                 include: { items: true },
             });
         });
@@ -198,10 +198,10 @@ class ChallanService {
             if (!challan) {
                 throw { statusCode: 404, message: "Challan not found" };
             }
-            if (challan.status === prisma_2.ChallanStatus.CANCELLED) {
+            if (challan.status === client_1.ChallanStatus.CANCELLED) {
                 throw { statusCode: 400, message: "Challan is already cancelled" };
             }
-            const previouslyConfirmed = challan.status === prisma_2.ChallanStatus.CONFIRMED;
+            const previouslyConfirmed = challan.status === client_1.ChallanStatus.CONFIRMED;
             // 2. If confirmed previously, reverse stock levels
             if (previouslyConfirmed) {
                 for (const item of challan.items) {
@@ -217,7 +217,7 @@ class ChallanService {
                         data: {
                             productId: item.productId,
                             quantity: item.quantity,
-                            type: prisma_2.MovementType.IN,
+                            type: client_1.MovementType.IN,
                             reason: `Challan Cancellation Reversal: ${challan.challanNumber}`,
                             createdById: userId,
                         },
@@ -227,7 +227,7 @@ class ChallanService {
             // 3. Set status to CANCELLED
             return tx.challan.update({
                 where: { id },
-                data: { status: prisma_2.ChallanStatus.CANCELLED },
+                data: { status: client_1.ChallanStatus.CANCELLED },
                 include: { items: true },
             });
         });

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomerService = void 0;
 const prisma_1 = __importDefault(require("../lib/prisma"));
-const prisma_2 = require("../generated/prisma");
+const client_1 = require("@prisma/client");
 class CustomerService {
     /**
      * Fetch all customers with fuzzy search, status filters, and pagination.
@@ -76,7 +76,7 @@ class CustomerService {
     static async softDeleteCustomer(id) {
         return prisma_1.default.customer.update({
             where: { id },
-            data: { status: prisma_2.CustomerStatus.INACTIVE },
+            data: { status: client_1.CustomerStatus.INACTIVE },
         });
     }
 }
