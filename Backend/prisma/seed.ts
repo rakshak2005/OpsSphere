@@ -242,6 +242,7 @@ async function main() {
       address: "Outer Ring Road, Bangalore, KA",
       status: CustomerStatus.ACTIVE,
       notes: "High priority distributor partner.",
+      followUpDate: new Date(Date.now() - 172800000).toISOString(), // Overdue 2 days
     },
     {
       customerName: "Sharma Retail Hub",
@@ -252,6 +253,7 @@ async function main() {
       address: "Connaught Place, New Delhi",
       status: CustomerStatus.LEAD,
       notes: "Follow up regarding wholesale catalog.",
+      followUpDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
     },
     {
       customerName: "dayanadha",
@@ -332,6 +334,7 @@ async function main() {
       address: "Jayanagar 4th Block, Bangalore",
       status: CustomerStatus.LEAD,
       notes: "Inquired about Dell Monitor stock.",
+      followUpDate: new Date().toISOString(), // Today
     }
   ];
 
