@@ -12,9 +12,22 @@ const app: Application = express();
 app.use(morgan("dev"));
 
 // Enable Cross-Origin Resource Sharing
+// Supports multiple origins: FRONTEND_URL can be comma-separated list
+const allowedOrigins = config.frontendUrl
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: config.frontendUrl,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Render health checks)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS: Origin '${origin}' not allowed`), false);
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
@@ -40,7 +53,7 @@ app.get("/health", (req: Request, res: Response) => {
 app.use("/api/v1", apiRouter);
 
 // Global Error Handler Middleware
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: AppError, req: Request, res: Response, _next: NextFunction) => {
   let statusCode = err.statusCode || 500;
   let message = err.message || "Internal Server Error";
   let errors = err.errors || [];
@@ -76,3 +89,4 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 export default app;
+
