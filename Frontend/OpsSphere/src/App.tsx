@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedLayout, RequireRole } from "./components/layout/ProtectedLayout";
+import { HomePage } from "./pages/Home/HomePage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { DashboardPage } from "./pages/dashboard/DashboardPage";
 import { CustomerListPage } from "./pages/customers/CustomerListPage";
@@ -22,10 +23,14 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Public Landing Homepage */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* Public Authentication Route */}
           <Route path="/login" element={<LoginPage />} />
 
+          {/* Protected Application Routes */}
           <Route element={<ProtectedLayout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
 
             <Route path="customers" element={<CustomerListPage />} />
