@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Plus, Minus, ArrowUpRight, ArrowDownRight, Loader2 } from "lucide-react";
+import { Plus, Minus, ArrowUpRight, ArrowDownRight, Loader2, Mail } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
 import { Modal } from "../../components/ui/Modal";
@@ -23,8 +23,15 @@ export const InventoryPage: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  // Stock Request via Email state variables
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [requestProductId, setRequestProductId] = useState("");
+  const [requestQuantity, setRequestQuantity] = useState("10");
+  const [requestNotes, setRequestNotes] = useState("");
+
   const { user } = useAuth();
   const canAdjustStock = user?.role === RoleEnum.ADMIN || user?.role === RoleEnum.WAREHOUSE;
+  const canRequestStock = user?.role === RoleEnum.ADMIN || user?.role === RoleEnum.SALES || user?.role === RoleEnum.WAREHOUSE;
 
   const fetchData = async () => {
     setLoading(true);
@@ -84,6 +91,34 @@ export const InventoryPage: React.FC = () => {
     }
   };
 
+  const handleRequestMail = (e: React.FormEvent) => {
+    e.preventDefault();
+    const prod = products.find((p) => p.id === requestProductId);
+    if (!prod) return;
+
+    const subject = encodeURIComponent(`[Stock Replenishment Request] SKU: ${prod.sku}`);
+    const body = encodeURIComponent(
+      `Hello Procurement Team,\n\n` +
+      `We require a stock replenishment for the following product:\n\n` +
+      `• Product Name: ${prod.productName}\n` +
+      `• SKU: ${prod.sku}\n` +
+      `• Current Stock: ${prod.currentStock} units\n` +
+      `• Requested Quantity: ${requestQuantity} units\n` +
+      `• Warehouse Location: ${prod.warehouseLocation || "Not Specified"}\n\n` +
+      `Additional Notes: ${requestNotes || "None"}\n\n` +
+      `Requested By: ${user?.name || "System User"} (${user?.role || "Staff"})\n` +
+      `OpsSphere ERP Platform`
+    );
+
+    // Open native client mail draft
+    window.location.href = `mailto:procurement@opssphere.com?subject=${subject}&body=${body}`;
+    
+    setRequestModalOpen(false);
+    setRequestProductId("");
+    setRequestQuantity("10");
+    setRequestNotes("");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
@@ -93,24 +128,35 @@ export const InventoryPage: React.FC = () => {
             Real-time stock IN/OUT ledger, audit trails, and warehouse quantity adjustments.
           </p>
         </div>
-        {canAdjustStock && (
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
+          {canRequestStock && (
             <Button
-              variant="primary"
-              onClick={() => setModalType("IN")}
-              icon={<Plus className="w-4 h-4" />}
+              variant="outline"
+              onClick={() => setRequestModalOpen(true)}
+              icon={<Mail className="w-4 h-4 text-[#3B82F6]" />}
             >
-              Add Stock (IN)
+              Request Stock
             </Button>
-            <Button
-              variant="danger"
-              onClick={() => setModalType("OUT")}
-              icon={<Minus className="w-4 h-4" />}
-            >
-              Remove Stock (OUT)
-            </Button>
-          </div>
-        )}
+          )}
+          {canAdjustStock && (
+            <>
+              <Button
+                variant="primary"
+                onClick={() => setModalType("IN")}
+                icon={<Plus className="w-4 h-4" />}
+              >
+                Add Stock (IN)
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => setModalType("OUT")}
+                icon={<Minus className="w-4 h-4" />}
+              >
+                Remove Stock (OUT)
+              </Button>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
@@ -119,72 +165,72 @@ export const InventoryPage: React.FC = () => {
             <Loader2 className="w-6 h-6 text-indigo-600 animate-spin" />
           </div>
         ) : movements.length === 0 ? (
-          <div className="py-12 text-center">
-            <p className="text-sm text-slate-500 font-medium">No stock movement logs recorded.</p>
+          <div className="text-center py-12 text-slate-500 text-sm">
+            No stock movements logged. Use "Add Stock (IN)" or dispatch a challan to log entries.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <table className="w-full text-left border-collapse text-xs text-slate-600">
+              <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-semibold">
                 <tr>
-                  <th className="px-6 py-3.5">Timestamp</th>
-                  <th className="px-6 py-3.5">Product SKU</th>
-                  <th className="px-6 py-3.5">Movement Type</th>
-                  <th className="px-6 py-3.5">Quantity</th>
-                  <th className="px-6 py-3.5">Reason</th>
-                  <th className="px-6 py-3.5">Logged By</th>
+                  <th className="px-6 py-4">Timestamp</th>
+                  <th className="px-6 py-4">Product SKU</th>
+                  <th className="px-6 py-4">Movement Type</th>
+                  <th className="px-6 py-4">Quantity</th>
+                  <th className="px-6 py-4">Reason</th>
+                  <th className="px-6 py-4">Logged By</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {movements.map((m) => (
-                  <tr key={m.id} className="hover:bg-slate-50/60 transition">
-                    <td className="px-6 py-4 text-xs font-medium text-slate-500">
-                      {new Date(m.createdAt).toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="font-semibold text-slate-900">{m.product?.productName || "Product"}</p>
-                      <span className="text-xs text-slate-400 font-mono">SKU: {m.product?.sku}</span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Badge variant={m.type === "IN" ? "success" : "danger"} className="gap-1">
-                        {m.type === "IN" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                        {m.type}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4 font-bold tabular-nums">
-                      <span className={m.type === "IN" ? "text-emerald-600" : "text-rose-600"}>
-                        {m.type === "IN" ? `+${m.quantity}` : `-${m.quantity}`}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-xs text-slate-600">
-                      {m.reason || "Manual Stock Adjustment"}
-                    </td>
-                    <td className="px-6 py-4 text-xs font-medium text-slate-700">
-                      {m.createdBy?.name || "System"}
-                    </td>
-                  </tr>
-                ))}
+                {movements.map((m) => {
+                  const isIN = m.type === "IN";
+                  return (
+                    <tr key={m.id} className="hover:bg-slate-50/50">
+                      <td className="px-6 py-4 text-slate-500 font-medium">
+                        {new Date(m.createdAt).toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="font-bold text-slate-900 block">{m.product?.productName}</span>
+                        <span className="text-[10px] text-slate-400 font-mono">SKU: {m.product?.sku}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Badge variant={isIN ? "success" : "danger"}>
+                          <span className="flex items-center gap-1">
+                            {isIN ? <ArrowDownRight className="w-3 h-3" /> : <ArrowUpRight className="w-3 h-3" />}
+                            {m.type}
+                          </span>
+                        </Badge>
+                      </td>
+                      <td className={`px-6 py-4 font-extrabold tabular-nums ${isIN ? "text-emerald-600" : "text-rose-600"}`}>
+                        {isIN ? `+${m.quantity}` : `-${m.quantity}`}
+                      </td>
+                      <td className="px-6 py-4 text-slate-500 font-medium">{m.reason}</td>
+                      <td className="px-6 py-4 text-slate-900 font-semibold">{m.createdBy?.name || "System"}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         )}
       </div>
 
+      {/* Modal: IN/OUT Stock Adjustments */}
       <Modal
-        isOpen={!!modalType}
+        isOpen={modalType !== null}
         onClose={() => setModalType(null)}
-        title={modalType === "IN" ? "Add Stock (IN Movement)" : "Remove Stock (OUT Movement)"}
+        title={modalType === "IN" ? "Restock Catalog Item (IN)" : "Deduct Catalog Item (OUT)"}
       >
-        {formError && (
-          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs font-medium text-rose-800">
-            {formError}
-          </div>
-        )}
+        <form onSubmit={handleStockSubmit} className="space-y-4 pt-2">
+          {formError && (
+            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl font-medium">
+              {formError}
+            </div>
+          )}
 
-        <form onSubmit={handleStockSubmit} className="space-y-4">
           <div>
             <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-1.5">
-              Select Product
+              Select Product SKU
             </label>
             <select
               value={selectedProductId}
@@ -233,6 +279,69 @@ export const InventoryPage: React.FC = () => {
               isLoading={submitting}
             >
               Confirm {modalType === "IN" ? "Stock Addition" : "Stock Removal"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Modal: Request Stock via Email */}
+      <Modal
+        isOpen={requestModalOpen}
+        onClose={() => setRequestModalOpen(false)}
+        title="Draft Stock Replenishment Request"
+      >
+        <form onSubmit={handleRequestMail} className="space-y-4 pt-2">
+          <p className="text-xs text-slate-500">
+            Select a product and enter the replenishment volume. When you click send, it will launch your mail client pre-filled.
+          </p>
+
+          <div>
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-1.5">
+              Target Product SKU
+            </label>
+            <select
+              value={requestProductId}
+              onChange={(e) => setRequestProductId(e.target.value)}
+              className="w-full bg-white text-slate-900 text-sm rounded-lg border border-slate-300 px-3 py-2"
+              required
+            >
+              <option value="">-- Choose Product --</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.productName} (SKU: {p.sku}) — Current: {p.currentStock} units
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <Input
+            label="Requested Volume"
+            type="number"
+            min="1"
+            required
+            value={requestQuantity}
+            onChange={(e) => setRequestQuantity(e.target.value)}
+          />
+
+          <div>
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-1.5">
+              Additional Notes
+            </label>
+            <textarea
+              placeholder="e.g. Urgent shipment required for customer project delivery"
+              value={requestNotes}
+              onChange={(e) => setRequestNotes(e.target.value)}
+              rows={3}
+              className="w-full bg-white text-slate-900 text-sm rounded-lg border border-slate-300 px-3 py-2 focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+            <Button type="button" variant="outline" onClick={() => setRequestModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary">
+              Send Request Mail
             </Button>
           </div>
         </form>
