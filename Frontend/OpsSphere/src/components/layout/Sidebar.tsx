@@ -11,6 +11,7 @@ import {
   User as UserIcon,
   X,
   BarChart3,
+  Coins,
 } from "lucide-react";
 import { NAVIGATION_ITEMS } from "../../constants/navigation";
 import { RoleEnum, type User } from "../../types/auth.types";
@@ -31,6 +32,7 @@ const iconMap: Record<string, React.ElementType> = {
   FileText,
   UserCog,
   BarChart3,
+  Coins,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({

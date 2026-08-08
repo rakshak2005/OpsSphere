@@ -46,6 +46,12 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
   },
   {
+    name: "Money Tracking",
+    href: "/money-tracking",
+    icon: "Coins",
+    allowedRoles: [RoleEnum.ADMIN, RoleEnum.SALES, RoleEnum.WAREHOUSE, RoleEnum.ACCOUNTS],
+  },
+  {
     name: "User Management",
     href: "/users",
     icon: "UserCog",
