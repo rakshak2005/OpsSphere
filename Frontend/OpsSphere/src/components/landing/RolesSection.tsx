@@ -1,69 +1,95 @@
-import React from "react";
-import { Shield, Users, Warehouse, FileCheck } from "lucide-react";
+import React, { useState } from "react";
 
 export const RolesSection: React.FC = () => {
-  const roles = [
-    {
-      title: "ADMIN",
-      desc: "Full system administration, user account registration, and global operation guards.",
-      icon: Shield,
-      badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+  const [activeRole, setActiveRole] = useState<"ADMIN" | "SALES" | "WAREHOUSE" | "ACCOUNTS">("SALES");
+
+  const rolePreviews = {
+    ADMIN: {
+      metrics: [
+        { label: "REGISTERED USERS", val: "14 Staff Accounts" },
+        { label: "RBAC PERMISSIONS", val: "Full Access" },
+        { label: "SYSTEM LOGS", val: "100% Audit Trace" },
+      ],
+      activity: "Admin registered new portal user (Role: WAREHOUSE)",
     },
-    {
-      title: "SALES",
-      desc: "Customer account creation, CRM follow-ups, and sales delivery challan generation.",
-      icon: Users,
-      badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+    SALES: {
+      metrics: [
+        { label: "CRM ACCOUNTS", val: "1,248 Customers" },
+        { label: "OPEN CHALLANS", val: "14 Draft Notes" },
+        { label: "DELIVERIES TODAY", val: "31 Shipped" },
+      ],
+      activity: "Sales created Draft Delivery Challan #CH-1024",
     },
-    {
-      title: "WAREHOUSE",
-      desc: "Product catalog management, stock IN/OUT transactions, and warehouse location bin tags.",
-      icon: Warehouse,
-      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    WAREHOUSE: {
+      metrics: [
+        { label: "STOCK HEALTH", val: "98.2% Healthy" },
+        { label: "LOW STOCK ALERTS", val: "7 SKUs Warning" },
+        { label: "STOCK IN MOVEMENTS", val: "+50 Units Logged" },
+      ],
+      activity: "Warehouse logged Stock IN movement (PO-9821)",
     },
-    {
-      title: "ACCOUNTS",
-      desc: "Read-only access to customer ledgers, delivery notes, and operational transaction history.",
-      icon: FileCheck,
-      badgeColor: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+    ACCOUNTS: {
+      metrics: [
+        { label: "DELIVERY VALUE", val: "₹84,500 Confirmed" },
+        { label: "COMPLETED NOTES", val: "184 Delivery Records" },
+        { label: "ACCESS LEVEL", val: "Read-Only Audit" },
+      ],
+      activity: "Accounts verified Delivery Note #CH-1023 financial record",
     },
-  ];
+  };
+
+  const preview = rolePreviews[activeRole];
 
   return (
-    <section id="roles" className="py-24 bg-[#0b1120] relative border-t border-white/10">
+    <section id="roles" className="py-24 bg-[#080B12] border-b border-[#202838]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400">
-            Role-Based Access Control
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            One platform. Every team.
-          </h2>
-          <p className="text-base text-slate-400">
-            Enforce operational boundaries while keeping department workflows synchronized.
+        <div className="text-left mb-8">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#6D5DFB]">DYNAMIC ROLE PERSPECTIVES</span>
+          <h2 className="text-3xl font-extrabold text-white mt-1">One platform. Different perspectives.</h2>
+          <p className="text-sm text-slate-400 mt-1">
+            Select a role to preview how the backend customizes workspace controls and data feeds.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {roles.map((r, idx) => {
-            const Icon = r.icon;
-            return (
-              <div
-                key={idx}
-                className="p-6 rounded-2xl bg-slate-900/60 border border-white/10 space-y-4 hover:border-indigo-500/40 transition group"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
-                    <Icon className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className={`text-xs font-bold px-2.5 py-1 rounded border ${r.badgeColor}`}>
-                    {r.title}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-medium">{r.desc}</p>
+        <div className="flex flex-wrap gap-3 mb-8">
+          {(["ADMIN", "SALES", "WAREHOUSE", "ACCOUNTS"] as const).map((role) => (
+            <button
+              key={role}
+              onClick={() => setActiveRole(role)}
+              className={`px-5 py-2.5 rounded-lg text-xs font-bold tracking-wider transition cursor-pointer ${
+                activeRole === role
+                  ? "bg-[#6D5DFB] text-white border border-[#6D5DFB]"
+                  : "bg-[#0E131D] text-slate-400 border border-[#202838] hover:text-white"
+              }`}
+            >
+              {role} PERSPECTIVE
+            </button>
+          ))}
+        </div>
+
+        <div className="bg-[#0E131D] p-6 rounded-xl border border-[#202838] space-y-6">
+          <div className="flex items-center justify-between border-b border-[#202838] pb-4">
+            <span className="text-xs font-bold text-white uppercase tracking-wider">
+              {activeRole} Active Dashboard View
+            </span>
+            <span className="text-[11px] font-mono text-[#6D5DFB] bg-[#6D5DFB]/10 px-3 py-1 rounded border border-[#6D5DFB]/20">
+              REST Guard Filtered
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {preview.metrics.map((m, i) => (
+              <div key={i} className="p-4 bg-[#080B12] rounded-lg border border-[#202838]">
+                <span className="text-[10px] font-mono text-slate-500 block">{m.label}</span>
+                <p className="text-xl font-bold text-white mt-1 tabular-nums">{m.val}</p>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          <div className="p-3 bg-[#080B12] rounded-lg border border-[#202838] flex items-center justify-between text-xs font-mono">
+            <span className="text-slate-400">ROLE ACTIVITY STREAM:</span>
+            <span className="text-white font-semibold">{preview.activity}</span>
+          </div>
         </div>
       </div>
     </section>

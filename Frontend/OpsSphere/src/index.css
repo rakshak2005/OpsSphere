@@ -3,72 +3,47 @@
 @layer base {
   :root {
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --bg-dark: #070b14;
-    --bg-dark-secondary: #0b1120;
-    --surface-dark: #111827;
-    --surface-dark-elevated: #151d2e;
+    --bg-base: #080B12;
+    --surface-base: #0E131D;
+    --surface-elevated: #141B2A;
+    --border-subtle: #202838;
+    --border-active: #333F56;
+    --accent-primary: #6D5DFB;
+    --accent-success: #24D6A3;
+    --accent-warning: #F5B84B;
+    --text-heading: #F8FAFC;
+    --text-body: #94A3B8;
   }
 
   html {
     scroll-behavior: smooth;
-    background-color: var(--bg-dark);
-    color: #f8fafc;
+    background-color: var(--bg-base);
+    color: var(--text-heading);
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: var(--bg-dark);
-    color: #f8fafc;
+    background-color: var(--bg-base);
+    color: var(--text-heading);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 }
 
-/* Custom glow utility & ambient sphere animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(0.5deg);
-  }
-}
-
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.05);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 8s ease-in-out infinite;
-}
-
-.glow-indigo {
-  box-shadow: 0 0 50px -10px rgba(99, 102, 241, 0.25);
-}
-
-.glow-purple {
-  box-shadow: 0 0 50px -10px rgba(139, 92, 246, 0.25);
-}
-
-/* Grid overlay background pattern */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-}
-
+/* Tabular numeric alignment for software metric numbers */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Subtle flat border utilities */
+.border-subtle {
+  border-color: var(--border-subtle);
+}
+
+.bg-surface-base {
+  background-color: var(--surface-base);
+}
+
+.bg-surface-elevated {
+  background-color: var(--surface-elevated);
 }
