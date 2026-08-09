@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   TrendingUp, Package, Download, RefreshCw,
   Users, FileText, BarChart2, AlertTriangle,
-  ArrowUpRight, ArrowDownRight, CheckCircle2,
+  ArrowUpRight, CheckCircle2,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { RoleEnum } from "../../types/auth.types";
@@ -118,7 +118,7 @@ export const ReportsPage: React.FC = () => {
   const [invoiceBars, setInvoiceBars] = useState<BarData[]>(
     makeBars([3, 6, 4, 8, 11, 5, 2], DAYS, 8)
   );
-  const [stockBars, setStockBars] = useState<BarData[]>(
+  const [stockBars] = useState<BarData[]>(
     makeBars([34, 51, 29, 67, 88, 43, 22], DAYS, 60)
   );
   const [dispatchBars, setDispatchBars] = useState<BarData[]>(
