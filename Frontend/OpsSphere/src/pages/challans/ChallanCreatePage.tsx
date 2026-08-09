@@ -110,7 +110,7 @@ export const ChallanCreatePage: React.FC = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Customer Selection */}
+          
           <div>
             <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-1.5">
               Select Customer Account *
@@ -130,7 +130,7 @@ export const ChallanCreatePage: React.FC = () => {
             </select>
           </div>
 
-          {/* Line Items */}
+          
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">

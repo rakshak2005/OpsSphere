@@ -24,13 +24,13 @@ export const LandingNavbar: React.FC = () => {
             : "bg-white/90 backdrop-blur-sm border-[#3B82F6]/60 shadow-xs"
         }`}
       >
-        {/* Brand Logo */}
+        
         <Link to="/" className="flex items-center gap-2.5">
           <img src={logoImg} alt="OpsSphere Logo" className="w-7 h-7 object-contain" />
           <span className="text-base font-extrabold text-[#0D1420] tracking-tight">OpsSphere</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        
         <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-600 uppercase tracking-wider">
           <a href="#overview" className="hover:text-[#3B82F6] transition">Platform</a>
           <a href="#layers" className="hover:text-[#3B82F6] transition">Solutions</a>
@@ -38,7 +38,7 @@ export const LandingNavbar: React.FC = () => {
           <a href="#security" className="hover:text-[#3B82F6] transition">Security</a>
         </nav>
 
-        {/* Actions */}
+        
         <div className="hidden md:flex items-center gap-3">
           <Link
             to="/login"
@@ -55,7 +55,7 @@ export const LandingNavbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
+        
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden p-2 text-slate-700 hover:bg-slate-100 rounded-lg transition"
@@ -65,7 +65,7 @@ export const LandingNavbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+      
       {mobileMenuOpen && (
         <div className="md:hidden mt-2 bg-white rounded-2xl border border-[#3B82F6]/60 p-5 shadow-xl space-y-4 pointer-events-auto">
           <nav className="flex flex-col space-y-3 text-sm font-semibold text-slate-700">

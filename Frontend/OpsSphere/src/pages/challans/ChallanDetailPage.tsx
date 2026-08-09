@@ -90,7 +90,7 @@ export const ChallanDetailPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       
-      {/* Print styles style block */}
+      
       <style dangerouslySetInnerHTML={{ __html: `
         @media print {
           body {
@@ -218,7 +218,7 @@ export const ChallanDetailPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Invoice footer sign-offs for professional print looks */}
+        
         <div className="hidden print:flex items-center justify-between pt-16 text-xs border-t border-slate-100">
           <div>
             <div className="w-40 border-b border-slate-300 mb-1" />

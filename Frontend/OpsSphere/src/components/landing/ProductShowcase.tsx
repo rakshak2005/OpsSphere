@@ -4,13 +4,13 @@ import logoImg from "../../assets/logo.png";
 export const ProductShowcase: React.FC = () => {
   return (
     <section className="relative min-h-screen py-16 bg-[#0D1420] text-white border-b border-slate-800/80 flex items-center overflow-hidden">
-      {/* Deep tech ambient background glow spots */}
+      
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-[#10B981]/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 space-y-10">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-blue-500/10 border border-blue-500/20 px-3.5 py-1 rounded-full mb-3.5">
             PRODUCT SHOWCASE
@@ -24,10 +24,10 @@ export const ProductShowcase: React.FC = () => {
           </p>
         </div>
 
-        {/* Scaled Core Dashboard Container for Viewport Fit */}
+        
         <div className="w-full max-w-[1100px] mx-auto bg-[#070B12] rounded-[24px] border border-slate-800 p-5 sm:p-6 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.6)] space-y-5">
           
-          {/* Top Navigation */}
+          
           <div className="flex items-center justify-between pb-3.5 border-b border-slate-800/80">
             <div className="flex items-center gap-2.5">
               <img src={logoImg} alt="OpsSphere Logo" className="w-5.5 h-5.5 object-contain" />
@@ -39,7 +39,7 @@ export const ProductShowcase: React.FC = () => {
             </div>
           </div>
 
-          {/* Core Stat Widgets */}
+          
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
             <div className="p-4 rounded-xl bg-[#0D1420] border border-slate-800/80 hover:border-slate-700 transition-colors">
               <span className="text-[11px] text-slate-400 block font-medium">Active Customers</span>
@@ -66,7 +66,7 @@ export const ProductShowcase: React.FC = () => {
             </div>
           </div>
 
-          {/* Operational Logs Panel */}
+          
           <div className="bg-[#0D1420] p-4.5 rounded-xl border border-slate-800/80 space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
               <h3 className="text-[10px] font-bold text-white uppercase tracking-wider">

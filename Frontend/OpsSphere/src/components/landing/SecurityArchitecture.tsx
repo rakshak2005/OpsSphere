@@ -29,7 +29,7 @@ export const SecurityArchitecture: React.FC = () => {
     <section id="security" className="py-24 bg-[#EEF3F8] border-b border-[#DCE3EC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6]">
             ENTERPRISE ARCHITECTURE
@@ -42,7 +42,7 @@ export const SecurityArchitecture: React.FC = () => {
           </p>
         </div>
 
-        {/* Clean Architecture Strip */}
+        
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {items.map((i, idx) => {
             const Icon = i.icon;

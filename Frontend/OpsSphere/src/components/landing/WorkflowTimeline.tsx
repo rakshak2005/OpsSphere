@@ -46,7 +46,7 @@ export const WorkflowTimeline: React.FC = () => {
     <section id="workflow" className="py-24 bg-white border-b border-[#DCE3EC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6]">
             TRANSACTIONAL WORKFLOW
@@ -59,7 +59,7 @@ export const WorkflowTimeline: React.FC = () => {
           </p>
         </div>
 
-        {/* Timeline Control Cards */}
+        
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
           {steps.map((s) => (
             <button
@@ -82,7 +82,7 @@ export const WorkflowTimeline: React.FC = () => {
           ))}
         </div>
 
-        {/* Dynamic Detail Card */}
+        
         <div className="p-8 rounded-3xl bg-[#F7F9FC] border border-[#DCE3EC] shadow-sm space-y-4">
           <div className="flex items-center justify-between border-b border-[#DCE3EC] pb-4">
             <div>

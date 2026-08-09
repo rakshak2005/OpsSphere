@@ -4,9 +4,7 @@ import { ChallanService } from "../services/challan.service";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";
 
-/**
- * Get all challans with pagination, status filters, and customer filters.
- */
+
 export const getAllChallans = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string || "1", 10);
   const limit = parseInt(req.query.limit as string || "10", 10);
@@ -28,9 +26,7 @@ export const getAllChallans = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Get details of a single challan by ID.
- */
+
 export const getChallanById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const challan = await ChallanService.getChallanById(id);
@@ -48,9 +44,7 @@ export const getChallanById = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Create a new Challan in DRAFT status.
- */
+
 export const createDraftChallan = catchAsync(async (req: Request, res: Response) => {
   const { customerId, items } = req.body;
   const createdById = req.user!.id;
@@ -69,9 +63,7 @@ export const createDraftChallan = catchAsync(async (req: Request, res: Response)
   });
 });
 
-/**
- * Confirm a Challan (transitions status from DRAFT to CONFIRMED, reducing stock).
- */
+
 export const confirmChallan = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.user!.id;
@@ -86,9 +78,7 @@ export const confirmChallan = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Cancel a Challan (reverses stock levels if previously confirmed).
- */
+
 export const cancelChallan = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.user!.id;

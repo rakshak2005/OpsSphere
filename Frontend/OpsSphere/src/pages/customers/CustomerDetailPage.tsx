@@ -76,7 +76,7 @@ export const CustomerDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Info Card */}
+      
       <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">{customer.customerName}</h1>
@@ -127,14 +127,14 @@ export const CustomerDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Notes & Follow-ups Timeline */}
+      
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
         <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
           <MessageSquare className="w-4 h-4 text-indigo-600" />
           Follow-up Logs & History
         </h2>
 
-        {/* Add Note Form */}
+        
         <form onSubmit={handleAddNote} className="flex gap-2">
           <input
             type="text"
@@ -148,7 +148,7 @@ export const CustomerDetailPage: React.FC = () => {
           </Button>
         </form>
 
-        {/* Display Timeline */}
+        
         <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs font-mono whitespace-pre-wrap leading-relaxed text-slate-700">
           {customer.notes || "No notes logged for this customer."}
         </div>

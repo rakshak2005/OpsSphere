@@ -30,7 +30,7 @@ export const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  // Real database metrics with live sync
+  
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [totalProducts, setTotalProducts] = useState(0);
   const [lowStockCount, setLowStockCount] = useState(0);
@@ -38,7 +38,7 @@ export const DashboardPage: React.FC = () => {
   const [recentChallans, setRecentChallans] = useState<Challan[]>([]);
   const [recentMovements, setRecentMovements] = useState<InventoryMovement[]>([]);
   
-  // Weekly performance chart state
+  
   const [weeklyData, setWeeklyData] = useState<Array<{ day: string; value: number; height: number; color: string }>>([]);
 
   const fetchDashboardData = async () => {
@@ -48,7 +48,7 @@ export const DashboardPage: React.FC = () => {
       const [custRes, prodRes, challanRes, invRes] = await Promise.allSettled([
         CustomerService.getAll({ limit: 1 }),
         ProductService.getAll({ limit: 100 }),
-        ChallanService.getAll({ limit: 100 }), // Fetch up to 100 to calculate weekly metrics
+        ChallanService.getAll({ limit: 100 }), 
         InventoryService.getMovements({ limit: 3 }),
       ]);
 
@@ -70,7 +70,7 @@ export const DashboardPage: React.FC = () => {
       if (challanRes.status === "fulfilled") {
         const val = challanRes.value as any;
         allChallans = val.challans || [];
-        setRecentChallans(allChallans.slice(0, 5)); // Show 5 most recent in lists
+        setRecentChallans(allChallans.slice(0, 5)); 
         const total = val.pagination?.total ?? val.total ?? (allChallans.length || 0);
         setTotalChallans(total);
       }
@@ -79,7 +79,7 @@ export const DashboardPage: React.FC = () => {
         setRecentMovements(val.movements || []);
       }
 
-      // Calculate weekly fulfillment velocity from live database challans
+      
       const baseValues = { Mon: 42, Tue: 68, Wed: 98, Thu: 55, Fri: 132, Sat: 87, Sun: 110 };
       const extraDispatches = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 };
       
@@ -89,7 +89,7 @@ export const DashboardPage: React.FC = () => {
         const date = new Date(ch.createdAt);
         const dayName = dayNamesMap[date.getDay()];
         if (dayName) {
-          // Sum the actual quantities of all items in this challan
+          
           const challanQuantity = ch.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
           extraDispatches[dayName] += challanQuantity;
         }
@@ -97,15 +97,15 @@ export const DashboardPage: React.FC = () => {
 
       const calculatedData = (["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const).map((day) => {
         const value = baseValues[day] + extraDispatches[day];
-        // Scale height so it fits beautifully in the 170px SVG container (max height = 130px)
+        
         const height = Math.min(132, Math.max(12, Math.round(value * 0.92)));
         
-        // Dynamic colors based on values
-        let color = "#3B82F6"; // Normal Day
+        
+        let color = "#3B82F6"; 
         if (value > 120) {
-          color = "#10B981"; // Peak Day
+          color = "#10B981"; 
         } else if (value < 65) {
-          color = "#93C5FD"; // Low Demand
+          color = "#93C5FD"; 
         }
 
         return { day, value, height, color };
@@ -161,7 +161,7 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="space-y-4">
       
-      {/* Page Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white px-5 py-4 rounded-2xl border border-slate-200/80 shadow-xs">
         <div>
           <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">
@@ -189,10 +189,10 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
 
-      {/* KPI Row (Synced to actual database totals) */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        {/* KPI 1: Customers */}
+        
         <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between relative overflow-hidden">
           <div className="space-y-0.5">
             <span className="text-[11px] font-semibold text-slate-500">Customers</span>
@@ -206,7 +206,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* KPI 2: Products */}
+        
         <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between relative overflow-hidden">
           <div className="space-y-0.5">
             <span className="text-[11px] font-semibold text-slate-500">Products</span>
@@ -220,7 +220,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* KPI 3: Low Stock */}
+        
         <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between relative overflow-hidden">
           <div className="space-y-0.5">
             <span className="text-[11px] font-semibold text-slate-500">Low Stock</span>
@@ -234,7 +234,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* KPI 4: Deliveries */}
+        
         <div className="bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-start justify-between relative overflow-hidden">
           <div className="space-y-0.5">
             <span className="text-[11px] font-semibold text-slate-500">Deliveries</span>
@@ -250,10 +250,10 @@ export const DashboardPage: React.FC = () => {
 
       </div>
 
-      {/* Main Analytics Row */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         
-        {/* Left Card: Operational Fulfillment Velocity Bar Chart */}
+        
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 flex flex-col">
           <div className="flex items-center justify-between mb-1">
             <div>
@@ -267,7 +267,7 @@ export const DashboardPage: React.FC = () => {
             </span>
           </div>
 
-          {/* Legend */}
+          
           <div className="flex items-center gap-4 mb-3 text-[9px] font-bold uppercase text-slate-400 tracking-wider">
             <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:"#3B82F6"}} />Normal Day</span>
             <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm inline-block" style={{background:"#10B981"}} />Peak Day</span>
@@ -276,7 +276,7 @@ export const DashboardPage: React.FC = () => {
 
           <div className="w-full flex-1 relative" style={{minHeight: "160px"}}>
             <svg className="w-full h-full" viewBox="0 0 620 170" preserveAspectRatio="none">
-              {/* Horizontal grid lines + Y-axis labels */}
+              
               {[
                 { y: 14, label: "150" },
                 { y: 46, label: "110" },
@@ -290,10 +290,10 @@ export const DashboardPage: React.FC = () => {
                 </g>
               ))}
 
-              {/* Baseline */}
+              
               <line x1="45" y1="142" x2="610" y2="142" stroke="#E2E8F0" strokeWidth="1.5" />
 
-              {/* Y-axis label */}
+              
               <text x="2" y="80" fill="#94A3B8" fontSize="7.5" fontFamily="monospace" transform="rotate(-90, 2, 80)">Units</text>
 
               {weeklyData.map((bar, index) => {
@@ -302,7 +302,7 @@ export const DashboardPage: React.FC = () => {
                 const barWidth = 34;
                 return (
                   <g key={index}>
-                    {/* Value label above bar */}
+                    
                     <text
                       x={xBase + barWidth / 2}
                       y={142 - bar.height - 5}
@@ -314,7 +314,7 @@ export const DashboardPage: React.FC = () => {
                     >
                       {bar.value}
                     </text>
-                    {/* Bar */}
+                    
                     <rect
                       x={xBase}
                       y={142 - bar.height}
@@ -323,7 +323,7 @@ export const DashboardPage: React.FC = () => {
                       fill={bar.color}
                       rx="5"
                     />
-                    {/* Day label below baseline */}
+                    
                     <text
                       x={xBase + barWidth / 2}
                       y="158"
@@ -341,7 +341,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Card: Recent Audit Logs */}
+        
         <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5 flex flex-col justify-between">
           <div className="space-y-3">
             <h3 className="text-sm font-bold text-slate-800 tracking-tight flex items-center gap-2 border-b border-slate-100 pb-2">
@@ -389,10 +389,10 @@ export const DashboardPage: React.FC = () => {
 
       </div>
 
-      {/* Bottom Summary Row (Four smaller stat cards) */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        {/* Summary Card 1 */}
+        
         <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Package className="w-4 h-4" />
@@ -403,7 +403,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Summary Card 2 */}
+        
         <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Truck className="w-4 h-4" />
@@ -414,7 +414,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Summary Card 3 */}
+        
         <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <ShoppingCart className="w-4 h-4" />
@@ -425,7 +425,7 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Summary Card 4 */}
+        
         <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <ShieldCheck className="w-4 h-4" />
@@ -438,10 +438,10 @@ export const DashboardPage: React.FC = () => {
 
       </div>
 
-      {/* Detailed Actionable Tables */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         
-        {/* Low Stock warnings table */}
+        
         <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs p-5">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
             <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">

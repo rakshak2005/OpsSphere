@@ -2,9 +2,7 @@ import prisma from "../lib/prisma";
 import { CustomerType, CustomerStatus, Prisma } from "@prisma/client";
 
 export class CustomerService {
-  /**
-   * Fetch all customers with fuzzy search, status filters, and pagination.
-   */
+  
   public static async getAllCustomers(params: {
     page: number;
     limit: number;
@@ -14,7 +12,7 @@ export class CustomerService {
     const { page, limit, search, status } = params;
     const skip = (page - 1) * limit;
 
-    // Build the query where clause
+    
     const where: Prisma.CustomerWhereInput = {};
 
     if (status) {
@@ -51,18 +49,14 @@ export class CustomerService {
     };
   }
 
-  /**
-   * Fetch a single customer by ID.
-   */
+  
   public static async getCustomerById(id: string) {
     return prisma.customer.findUnique({
       where: { id },
     });
   }
 
-  /**
-   * Create a new customer record.
-   */
+  
   public static async createCustomer(data: {
     customerName: string;
     mobile: string;
@@ -80,9 +74,7 @@ export class CustomerService {
     });
   }
 
-  /**
-   * Update an existing customer record.
-   */
+  
   public static async updateCustomer(id: string, data: Prisma.CustomerUpdateInput) {
     return prisma.customer.update({
       where: { id },
@@ -90,9 +82,7 @@ export class CustomerService {
     });
   }
 
-  /**
-   * Soft delete customer by marking status as INACTIVE.
-   */
+  
   public static async softDeleteCustomer(id: string) {
     return prisma.customer.update({
       where: { id },

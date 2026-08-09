@@ -29,12 +29,12 @@ export const UserManagementPage: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Password reset modal states
+  
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [newPassword, setNewPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
 
-  // User activity log state
+  
   const [activities, setActivities] = useState<ActivityLog[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(false);
 
@@ -132,7 +132,7 @@ export const UserManagementPage: React.FC = () => {
   return (
     <div className="space-y-6">
       
-      {/* Page Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">Admin User Management</h1>
@@ -149,10 +149,10 @@ export const UserManagementPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Main Grid: Left User Directory, Right Activity Log */}
+      
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* User Directory */}
+        
         <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
           <div className="p-4 border-b border-slate-100 bg-slate-50/50">
             <h3 className="text-xs font-bold text-slate-800 uppercase tracking-widest">Portal User Directory</h3>
@@ -223,7 +223,7 @@ export const UserManagementPage: React.FC = () => {
           )}
         </div>
 
-        {/* User Activities Log Tracker */}
+        
         <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <h3 className="text-xs font-bold text-slate-800 uppercase tracking-widest">User Action Trails</h3>
@@ -254,7 +254,7 @@ export const UserManagementPage: React.FC = () => {
 
       </div>
 
-      {/* User Registration Modal */}
+      
       <Modal
         isOpen={registerModalOpen}
         onClose={() => setRegisterModalOpen(false)}
@@ -320,7 +320,7 @@ export const UserManagementPage: React.FC = () => {
         </form>
       </Modal>
 
-      {/* Password Reset Modal */}
+      
       <Modal
         isOpen={passwordModalOpen}
         onClose={() => setPasswordModalOpen(false)}

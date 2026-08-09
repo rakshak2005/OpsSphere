@@ -4,12 +4,10 @@ import { InventoryService } from "../services/inventory.service";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";
 
-/**
- * Handle POST /inventory/add-stock
- */
+
 export const addStock = catchAsync(async (req: Request, res: Response) => {
   const { productId, quantity, reason } = req.body;
-  const createdById = req.user!.id; // Guaranteed by protect middleware
+  const createdById = req.user!.id; 
 
   if (!productId || !quantity || quantity <= 0) {
     res.status(400).json({ success: false, message: "Valid Product ID and positive quantity are required" });
@@ -31,9 +29,7 @@ export const addStock = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * Handle POST /inventory/remove-stock
- */
+
 export const removeStock = catchAsync(async (req: Request, res: Response) => {
   const { productId, quantity, reason } = req.body;
   const createdById = req.user!.id;
@@ -58,9 +54,7 @@ export const removeStock = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * Handle GET /inventory/movements
- */
+
 export const getMovements = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string || "1", 10);
   const limit = parseInt(req.query.limit as string || "10", 10);

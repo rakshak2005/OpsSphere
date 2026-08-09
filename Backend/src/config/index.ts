@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// Ensure critical variables are defined
+
 const REQUIRED_ENV = ["DATABASE_URL", "JWT_SECRET"];
 
 for (const envVar of REQUIRED_ENV) {

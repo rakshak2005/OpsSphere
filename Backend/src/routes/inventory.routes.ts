@@ -9,17 +9,17 @@ import { Role } from "../schemas/user.schema";
 
 const router = Router();
 
-// All stock paths require authenticated sessions
+
 router.use(protect);
 
-// Read permissions: Admin, Sales, Warehouse, Accounts
+
 router.get(
   "/movements",
   restrictTo(Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS),
   getMovements
 );
 
-// Write permissions: Admin and Warehouse roles only
+
 router.post(
   "/add-stock",
   restrictTo(Role.ADMIN, Role.WAREHOUSE),

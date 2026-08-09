@@ -27,17 +27,17 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      {/* Backdrop overlay */}
+      
       <div
         className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Card */}
+      
       <div
         className={`relative w-full ${widthClasses[maxWidth]} bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden transform transition-all z-10`}
       >
-        {/* Header */}
+        
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
           <h3 className="text-base font-semibold text-slate-900">{title}</h3>
           <button
@@ -49,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
           </button>
         </div>
 
-        {/* Content Body */}
+        
         <div className="p-6">{children}</div>
       </div>
     </div>

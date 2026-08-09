@@ -33,7 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(currentUser);
           localStorage.setItem("opssphere_user_session", JSON.stringify(currentUser));
         } catch (error: any) {
-          // Silent fallback to stored session if network/backend is briefly unavailable
+          
           console.warn("Session verification warning:", error?.message);
         }
       }

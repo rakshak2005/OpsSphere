@@ -5,9 +5,7 @@ import prisma from "../lib/prisma";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";
 
-/**
- * Get all customers with search, status filters, and pagination.
- */
+
 export const getAllCustomers = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string || "1", 10);
   const limit = parseInt(req.query.limit as string || "10", 10);
@@ -29,9 +27,7 @@ export const getAllCustomers = catchAsync(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * Get customer details by ID.
- */
+
 export const getCustomerById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const customer = await CustomerService.getCustomerById(id);
@@ -49,9 +45,7 @@ export const getCustomerById = catchAsync(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * Add a new customer.
- */
+
 export const createCustomer = catchAsync(async (req: Request, res: Response) => {
   const {
     customerName,
@@ -93,9 +87,7 @@ export const createCustomer = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Update customer details.
- */
+
 export const updateCustomer = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = req.body;
@@ -114,9 +106,7 @@ export const updateCustomer = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Add a follow-up note to a customer.
- */
+
 export const addFollowUpNote = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { note } = req.body;
@@ -150,9 +140,7 @@ export const addFollowUpNote = catchAsync(async (req: Request, res: Response) =>
   });
 });
 
-/**
- * Soft delete customer.
- */
+
 export const deleteCustomer = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 

@@ -15,9 +15,9 @@ export const InteractiveDashboardPreview: React.FC = () => {
           </p>
         </div>
 
-        {/* 1200px Full Application Dashboard Display */}
+        
         <div className="w-full bg-[#0E131D] rounded-xl border border-[#202838] overflow-hidden shadow-2xl">
-          {/* Topbar App Shell Header */}
+          
           <div className="flex items-center justify-between px-6 py-4 bg-[#080B12] border-b border-[#202838]">
             <div className="flex items-center gap-3">
               <img src={logoImg} alt="Logo" className="w-6 h-6 object-contain" />
@@ -29,9 +29,9 @@ export const InteractiveDashboardPreview: React.FC = () => {
             </div>
           </div>
 
-          {/* Inner Full Grid Viewport */}
+          
           <div className="p-6 space-y-6">
-            {/* Top Stat Row */}
+            
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
               <div className="p-4 bg-[#080B12] rounded-lg border border-[#202838]">
                 <span className="text-xs text-slate-400 block font-medium">Active Customers</span>
@@ -58,7 +58,7 @@ export const InteractiveDashboardPreview: React.FC = () => {
               </div>
             </div>
 
-            {/* Main Operational Panels */}
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 bg-[#080B12] p-5 rounded-lg border border-[#202838] space-y-4">
                 <div className="flex items-center justify-between border-b border-[#202838] pb-3">

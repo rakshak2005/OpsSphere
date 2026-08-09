@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Match the Role enum from our Prisma client
+
 export enum Role {
   ADMIN = "ADMIN",
   SALES = "SALES",

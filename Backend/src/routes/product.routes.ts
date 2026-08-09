@@ -16,10 +16,10 @@ import { Role } from "../schemas/user.schema";
 
 const router = Router();
 
-// All catalog paths require authenticated sessions
+
 router.use(protect);
 
-// Read permissions: Admin, Sales, Warehouse, Accounts
+
 router.get(
   "/",
   restrictTo(Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS),
@@ -31,7 +31,7 @@ router.get(
   getProductById
 );
 
-// Write permissions: Admin and Warehouse roles only
+
 router.post(
   "/",
   restrictTo(Role.ADMIN, Role.WAREHOUSE),

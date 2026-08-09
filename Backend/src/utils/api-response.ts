@@ -7,9 +7,7 @@ interface ApiResponseOptions<T> {
   data?: T;
 }
 
-/**
- * Standardized success response utility.
- */
+
 export function sendResponse<T>({
   res,
   statusCode,

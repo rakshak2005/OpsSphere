@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Search, Filter, Trash2, Loader2, Package, MapPin } from "lucide-react";
+import { Plus, Search, Filter, Trash2, Loader2, Package, MapPin, Download } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Badge } from "../../components/ui/Badge";
@@ -50,6 +50,27 @@ export const ProductListPage: React.FC = () => {
     }
   };
 
+  const exportToCSV = () => {
+    const headers = ["Product Name", "SKU", "Category", "Unit Price (INR)", "Current Stock", "Minimum Stock", "Warehouse Location"];
+    const rows = products.map((p) => [
+      p.productName,
+      p.sku,
+      p.category || "",
+      Number(p.unitPrice).toString(),
+      p.currentStock.toString(),
+      p.minimumStock.toString(),
+      p.warehouseLocation || "",
+    ]);
+    const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `products_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
@@ -59,13 +80,23 @@ export const ProductListPage: React.FC = () => {
             Manage inventory SKUs, unit prices, minimum thresholds, and warehouse bin locations.
           </p>
         </div>
-        {canEdit && (
-          <Link to="/products/create">
-            <Button variant="primary" icon={<Plus className="w-4 h-4" />}>
-              Add Product
-            </Button>
-          </Link>
-        )}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            icon={<Download className="w-4 h-4 text-slate-500" />}
+            onClick={exportToCSV}
+            disabled={products.length === 0}
+          >
+            Export CSV
+          </Button>
+          {canEdit && (
+            <Link to="/products/create">
+              <Button variant="primary" icon={<Plus className="w-4 h-4" />}>
+                Add Product
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row items-center gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">

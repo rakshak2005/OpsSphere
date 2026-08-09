@@ -4,9 +4,9 @@ import { useAuth } from "../../context/AuthContext";
 import { RoleEnum } from "../../types/auth.types";
 import { apiClient } from "../../services/api";
 
-// ──────────────────────────────────────────────────────
-// Reusable bar chart component
-// ──────────────────────────────────────────────────────
+
+
+
 interface BarData {
   label: string;
   value: number;
@@ -78,9 +78,9 @@ const SimpleBarChart: React.FC<{
   );
 };
 
-// ──────────────────────────────────────────────────────
-// Loader
-// ──────────────────────────────────────────────────────
+
+
+
 const Loader2: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={`animate-spin ${className}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -88,7 +88,7 @@ const Loader2: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-// Chart datasets
+
 const salesWeekly: BarData[] = [
   { label: "Mon", value: 12, color: "#6366F1" },
   { label: "Tue", value: 18, color: "#6366F1" },
@@ -129,9 +129,9 @@ const dispatchWeekly: BarData[] = [
   { label: "Sun", value: 5,  color: "#EC4899" },
 ];
 
-// ──────────────────────────────────────────────────────
-// Main Page
-// ──────────────────────────────────────────────────────
+
+
+
 export const ReportsPage: React.FC = () => {
   const { user } = useAuth();
   const userRole = user?.role || RoleEnum.ACCOUNTS;
@@ -197,7 +197,7 @@ export const ReportsPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
           <BarChart3 className="w-5 h-5 text-indigo-600" />
@@ -209,7 +209,7 @@ export const ReportsPage: React.FC = () => {
         </p>
       </div>
 
-      {/* SALES REPORT */}
+      
       {isSales && (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-5">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -252,7 +252,7 @@ export const ReportsPage: React.FC = () => {
         </div>
       )}
 
-      {/* WAREHOUSE REPORT */}
+      
       {isWarehouse && (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-5">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -295,7 +295,7 @@ export const ReportsPage: React.FC = () => {
         </div>
       )}
 
-      {/* ACCOUNTS FALLBACK */}
+      
       {!isSales && !isWarehouse && (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-4">
           <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-3 flex items-center gap-2">

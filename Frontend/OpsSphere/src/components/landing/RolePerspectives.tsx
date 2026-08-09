@@ -47,12 +47,12 @@ export const RolePerspectives: React.FC = () => {
 
   return (
     <section id="roles" className="relative min-h-screen py-16 bg-radial from-[#F0F4F8] via-[#EEF3F8] to-[#E2E8F0] border-b border-[#DCE3EC] flex items-center overflow-hidden">
-      {/* Light background decorative mesh spot */}
+      
       <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-blue-300/10 rounded-full blur-[110px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 space-y-10">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto">
           <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-white border border-[#3B82F6]/30 px-3.5 py-1 rounded-full shadow-xs mb-3.5">
             DYNAMIC ROLE PERSPECTIVES
@@ -65,7 +65,7 @@ export const RolePerspectives: React.FC = () => {
           </p>
         </div>
 
-        {/* Role Selectors - Whitish Buttons */}
+        
         <div className="flex flex-wrap justify-center gap-3">
           {(["ADMIN", "SALES", "WAREHOUSE", "ACCOUNTS"] as const).map((role) => (
             <button
@@ -82,7 +82,7 @@ export const RolePerspectives: React.FC = () => {
           ))}
         </div>
 
-        {/* Dynamic Display Panel - Whitish Glassmorphism */}
+        
         <div className="max-w-[1100px] mx-auto bg-white/70 backdrop-blur-md p-8 sm:p-10 rounded-[24px] border border-white/50 shadow-[0_20px_45px_-15px_rgba(13,20,32,0.06)] space-y-6">
           <div className="flex items-center justify-between border-b border-slate-200/60 pb-5">
             <div className="space-y-1">

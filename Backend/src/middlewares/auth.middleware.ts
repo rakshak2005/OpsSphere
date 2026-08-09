@@ -4,15 +4,12 @@ import { verifyToken } from "../utils/jwt";
 import { catchAsync } from "../utils/catch-async";
 import { Role } from "../schemas/user.schema";
 
-/**
- * Middleware to protect API routes.
- * Verifies the client's JWT token and attaches the authenticated User object to req.user.
- */
+
 export const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     let token: string | undefined;
 
-    // 1. Extract token from Authorization header or cookies
+    
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -30,11 +27,11 @@ export const protect = catchAsync(
       return;
     }
 
-    // 2. Cryptographically verify token signature
+    
     try {
       const decoded = verifyToken(token);
 
-      // 3. Confirm that the user account still exists in PostgreSQL
+      
       const currentUser = await UserService.getUserById(decoded.id);
 
       if (!currentUser) {
@@ -45,7 +42,7 @@ export const protect = catchAsync(
         return;
       }
 
-      // 4. Ensure the user account has not been deactivated
+      
       if (!currentUser.isActive) {
         res.status(401).json({
           success: false,
@@ -54,7 +51,7 @@ export const protect = catchAsync(
         return;
       }
 
-      // 5. Attach the authenticated user object to the request context
+      
       req.user = {
         ...currentUser,
         role: currentUser.role as unknown as Role,
@@ -70,9 +67,7 @@ export const protect = catchAsync(
   }
 );
 
-/**
- * Middleware to restrict route access to specific roles.
- */
+
 export const restrictTo = (...roles: Role[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     if (!req.user || !roles.includes(req.user.role)) {

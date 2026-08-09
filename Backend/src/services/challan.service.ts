@@ -2,9 +2,7 @@ import prisma from "../lib/prisma";
 import { ChallanStatus, MovementType, Prisma } from "@prisma/client";
 
 export class ChallanService {
-  /**
-   * Fetch all challans with pagination and status filters.
-   */
+  
   public static async getAllChallans(params: {
     page: number;
     limit: number;
@@ -53,9 +51,7 @@ export class ChallanService {
     };
   }
 
-  /**
-   * Fetch details of a single challan by ID, including items and snapshots.
-   */
+  
   public static async getChallanById(id: string) {
     return prisma.challan.findUnique({
       where: { id },
@@ -73,10 +69,7 @@ export class ChallanService {
     });
   }
 
-  /**
-   * Create a new Challan in DRAFT status.
-   * Auto-generates a unique challanNumber and records catalog item data snapshots.
-   */
+  
   public static async createDraftChallan(data: {
     customerId: string;
     createdById: string;
@@ -85,12 +78,12 @@ export class ChallanService {
     const { customerId, createdById, items } = data;
 
     return prisma.$transaction(async (tx) => {
-      // 1. Generate sequential challan number
+      
       const count = await tx.challan.count();
       const currentYear = new Date().getFullYear();
       const challanNumber = `CH-${currentYear}-${String(count + 1).padStart(5, "0")}`;
 
-      // 2. Fetch all products to create historical data snapshots
+      
       const productIds = items.map((i) => i.productId);
       const products = await tx.product.findMany({
         where: { id: { in: productIds } },
@@ -100,10 +93,10 @@ export class ChallanService {
         throw { statusCode: 404, message: "One or more products not found" };
       }
 
-      // Create product lookup map
+      
       const productMap = new Map(products.map((p) => [p.id, p]));
 
-      // 3. Insert the draft Challan record
+      
       const challan = await tx.challan.create({
         data: {
           challanNumber,
@@ -113,7 +106,7 @@ export class ChallanService {
         },
       });
 
-      // 4. Create the ChallanItem rows with product snapshots
+      
       const challanItemsData = items.map((item) => {
         const product = productMap.get(item.productId)!;
         return {
@@ -130,7 +123,7 @@ export class ChallanService {
         data: challanItemsData,
       });
 
-      // Fetch complete draft with items
+      
       return tx.challan.findUnique({
         where: { id: challan.id },
         include: { items: true },
@@ -138,13 +131,10 @@ export class ChallanService {
     });
   }
 
-  /**
-   * Confirm a Challan.
-   * Decrements stock and writes OUT movement records. Ensures stock doesn't go negative.
-   */
+  
   public static async confirmChallan(id: string, userId: string) {
     return prisma.$transaction(async (tx) => {
-      // 1. Fetch Challan details
+      
       const challan = await tx.challan.findUnique({
         where: { id },
         include: { items: true },
@@ -161,7 +151,7 @@ export class ChallanService {
         };
       }
 
-      // 2. Lock and validate stock level for each item
+      
       for (const item of challan.items) {
         const product = await tx.product.findUnique({
           where: { id: item.productId },
@@ -181,7 +171,7 @@ export class ChallanService {
           };
         }
 
-        // 3. Decrement product stock
+        
         await tx.product.update({
           where: { id: item.productId },
           data: {
@@ -189,7 +179,7 @@ export class ChallanService {
           },
         });
 
-        // 4. Create audit stock movement
+        
         await tx.inventoryMovement.create({
           data: {
             productId: item.productId,
@@ -201,7 +191,7 @@ export class ChallanService {
         });
       }
 
-      // 5. Update Challan status to CONFIRMED
+      
       return tx.challan.update({
         where: { id },
         data: { status: ChallanStatus.CONFIRMED },
@@ -210,13 +200,10 @@ export class ChallanService {
     });
   }
 
-  /**
-   * Cancel a Challan.
-   * If previously confirmed, restores the stock levels and logs IN movement audits.
-   */
+  
   public static async cancelChallan(id: string, userId: string) {
     return prisma.$transaction(async (tx) => {
-      // 1. Fetch Challan details
+      
       const challan = await tx.challan.findUnique({
         where: { id },
         include: { items: true },
@@ -232,10 +219,10 @@ export class ChallanService {
 
       const previouslyConfirmed = challan.status === ChallanStatus.CONFIRMED;
 
-      // 2. If confirmed previously, reverse stock levels
+      
       if (previouslyConfirmed) {
         for (const item of challan.items) {
-          // Increment product stock
+          
           await tx.product.update({
             where: { id: item.productId },
             data: {
@@ -243,7 +230,7 @@ export class ChallanService {
             },
           });
 
-          // Create audit stock movement
+          
           await tx.inventoryMovement.create({
             data: {
               productId: item.productId,
@@ -256,7 +243,7 @@ export class ChallanService {
         }
       }
 
-      // 3. Set status to CANCELLED
+      
       return tx.challan.update({
         where: { id },
         data: { status: ChallanStatus.CANCELLED },

@@ -8,7 +8,7 @@ import challanRouter from "./challan.routes";
 
 const router = Router();
 
-// Mount routes
+
 router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/customers", customerRouter);

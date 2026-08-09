@@ -2,9 +2,7 @@ import prisma from "../lib/prisma";
 import { MovementType, Prisma } from "@prisma/client";
 
 export class InventoryService {
-  /**
-   * Add stock to product and write IN movement record in an atomic transaction.
-   */
+  
   public static async addStock(data: {
     productId: string;
     quantity: number;
@@ -14,7 +12,7 @@ export class InventoryService {
     const { productId, quantity, reason, createdById } = data;
 
     return prisma.$transaction(async (tx) => {
-      // 1. Confirm product exists
+      
       const productExists = await tx.product.findUnique({
         where: { id: productId },
       });
@@ -23,7 +21,7 @@ export class InventoryService {
         throw { statusCode: 404, message: "Product not found" };
       }
 
-      // 2. Increment stock level
+      
       const updatedProduct = await tx.product.update({
         where: { id: productId },
         data: {
@@ -31,7 +29,7 @@ export class InventoryService {
         },
       });
 
-      // 3. Create audit movement row
+      
       const movement = await tx.inventoryMovement.create({
         data: {
           productId,
@@ -46,9 +44,7 @@ export class InventoryService {
     });
   }
 
-  /**
-   * Remove stock from product and write OUT movement record, preventing negative stock levels.
-   */
+  
   public static async removeStock(data: {
     productId: string;
     quantity: number;
@@ -58,7 +54,7 @@ export class InventoryService {
     const { productId, quantity, reason, createdById } = data;
 
     return prisma.$transaction(async (tx) => {
-      // 1. Fetch current stock count
+      
       const product = await tx.product.findUnique({
         where: { id: productId },
       });
@@ -67,7 +63,7 @@ export class InventoryService {
         throw { statusCode: 404, message: "Product not found" };
       }
 
-      // 2. Prevent negative inventory bounds
+      
       if (product.currentStock < quantity) {
         throw {
           statusCode: 400,
@@ -75,7 +71,7 @@ export class InventoryService {
         };
       }
 
-      // 3. Decrement stock level
+      
       const updatedProduct = await tx.product.update({
         where: { id: productId },
         data: {
@@ -83,7 +79,7 @@ export class InventoryService {
         },
       });
 
-      // 4. Create audit movement row
+      
       const movement = await tx.inventoryMovement.create({
         data: {
           productId,
@@ -98,9 +94,7 @@ export class InventoryService {
     });
   }
 
-  /**
-   * Fetch paginated audit movement logs.
-   */
+  
   public static async getMovements(params: {
     page: number;
     limit: number;

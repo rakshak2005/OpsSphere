@@ -1,7 +1,4 @@
-/**
- * Custom Error class for operational errors.
- * Operational errors are expected errors (e.g., validation failed, record not found).
- */
+
 export class AppError extends Error {
   public readonly statusCode: number;
   public readonly isOperational: boolean;
@@ -13,7 +10,7 @@ export class AppError extends Error {
     this.isOperational = true;
     this.errors = errors;
 
-    // Capture the call stack and omit this constructor from it
+    
     Error.captureStackTrace(this, this.constructor);
   }
 }

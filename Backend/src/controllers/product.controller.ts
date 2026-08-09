@@ -4,9 +4,7 @@ import prisma from "../lib/prisma";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";
 
-/**
- * Get all products with search, category filtering, low-stock threshold queries, and pagination.
- */
+
 export const getAllProducts = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string || "1", 10);
   const limit = parseInt(req.query.limit as string || "10", 10);
@@ -30,9 +28,7 @@ export const getAllProducts = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Get product details by ID.
- */
+
 export const getProductById = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const product = await ProductService.getProductById(id);
@@ -50,9 +46,7 @@ export const getProductById = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Create a new product.
- */
+
 export const createProduct = catchAsync(async (req: Request, res: Response) => {
   const {
     productName,
@@ -64,7 +58,7 @@ export const createProduct = catchAsync(async (req: Request, res: Response) => {
     warehouseLocation,
   } = req.body;
 
-  // Enforce SKU code uniqueness
+  
   const duplicate = await prisma.product.findUnique({ where: { sku } });
   if (duplicate) {
     res.status(409).json({ success: false, message: "Product with this SKU already exists" });
@@ -89,14 +83,12 @@ export const createProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * Update product details.
- */
+
 export const updateProduct = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const data = req.body;
 
-  // Prevent duplicate SKU updating if sku is being updated
+  
   if (data.sku) {
     const duplicate = await prisma.product.findFirst({
       where: {
@@ -120,13 +112,11 @@ export const updateProduct = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * Delete product.
- */
+
 export const deleteProduct = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  // Confirm if product is linked to any active challans
+  
   const activeChallanItem = await prisma.challanItem.findFirst({
     where: { productId: id },
   });

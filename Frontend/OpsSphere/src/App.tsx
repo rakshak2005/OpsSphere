@@ -25,13 +25,13 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* Public Landing Homepage */}
+          
           <Route path="/" element={<HomePage />} />
 
-          {/* Public Authentication Route */}
+          
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Protected Application Routes */}
+          
           <Route element={<ProtectedLayout />}>
             <Route path="dashboard" element={<DashboardPage />} />
 

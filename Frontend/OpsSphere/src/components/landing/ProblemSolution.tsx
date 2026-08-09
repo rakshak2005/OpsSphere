@@ -4,13 +4,13 @@ import { XCircle, CheckCircle2, AlertTriangle, ArrowRightLeft, ShieldCheck } fro
 export const ProblemSolution: React.FC = () => {
   return (
     <section className="relative min-h-screen py-16 bg-radial from-[#F0F4F8] via-[#EEF3F8] to-[#E2E8F0] border-b border-[#DCE3EC] flex items-center overflow-hidden">
-      {/* Dynamic ambient colored mesh spots for wow lighting */}
+      
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-300/15 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-emerald-300/15 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto mb-10">
           <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-white border border-[#3B82F6]/30 px-3.5 py-1 rounded-full shadow-xs mb-3.5">
             OPERATIONAL EFFICIENCY

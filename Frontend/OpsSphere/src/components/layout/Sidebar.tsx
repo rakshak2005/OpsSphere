@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-[#0B1224] text-[#94A3B8] border-r border-[#1E293B]">
-      {/* Brand Header */}
+      
       <div className="flex items-center justify-between h-20 px-6 border-b border-[#1E293B] shrink-0 bg-[#070B14]/40">
         <Link to="/dashboard" className="flex items-center gap-3">
           <img src={logoImg} alt="OpsSphere Logo" className="w-9 h-9 object-contain shrink-0" />
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </button>
       </div>
 
-      {/* Navigation Links */}
+      
       <nav className="flex-1 px-4 py-8 space-y-2 overflow-y-auto">
         <div className="px-4 mb-4 text-[10px] font-bold text-[#475569] uppercase tracking-widest">
           MAIN
@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         })}
       </nav>
 
-      {/* Footer User Info Panel */}
+      
       <div className="p-5 border-t border-[#1E293B] bg-[#070B14]/40 shrink-0">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">

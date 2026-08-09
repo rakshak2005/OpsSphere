@@ -68,7 +68,7 @@ export const FeatureModulesSection: React.FC = () => {
   return (
     <section id="modules" className="py-24 bg-[#0b1120] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
           <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400">
             Core Modules
@@ -81,7 +81,7 @@ export const FeatureModulesSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 4 Feature Cards Grid */}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {modules.map((m) => {
             const Icon = m.icon;

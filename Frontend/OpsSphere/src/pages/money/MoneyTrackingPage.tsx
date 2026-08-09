@@ -24,7 +24,7 @@ export const MoneyTrackingPage: React.FC = () => {
     fetchMovements();
   }, []);
 
-  // Compute total money values
+  
   let totalInflowValuation = 0;
   let totalOutflowValuation = 0;
 
@@ -42,7 +42,7 @@ export const MoneyTrackingPage: React.FC = () => {
   return (
     <div className="space-y-6">
       
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
           <div className="flex items-center gap-2">
@@ -57,10 +57,10 @@ export const MoneyTrackingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Financial Stat Cards */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         
-        {/* Inflow Card */}
+        
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[110px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Credited Capital (Inflow)</span>
@@ -76,7 +76,7 @@ export const MoneyTrackingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Outflow Card */}
+        
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[110px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Debited Capital (Outflow)</span>
@@ -92,7 +92,7 @@ export const MoneyTrackingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Net Asset Valuation Card */}
+        
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between min-h-[110px]">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Net Valuation Impact</span>
@@ -110,7 +110,7 @@ export const MoneyTrackingPage: React.FC = () => {
 
       </div>
 
-      {/* Passbook Table */}
+      
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <span className="text-xs font-extrabold text-slate-500 uppercase tracking-widest">

@@ -16,35 +16,35 @@ export const HomePage: React.FC = () => {
     <div className="min-h-screen bg-white text-[#0D1420] font-sans antialiased selection:bg-[#3B82F6] selection:text-white">
       <LandingNavbar />
       <main>
-        {/* 1. LIGHT HERO (#F7F9FC) */}
+        
         <HeroSection />
 
-        {/* 2. WHITE SYSTEM (#FFFFFF) */}
+        
         <PlatformLayers />
 
-        {/* 3. SOFT GRAY PROBLEM/SOLUTION (#EEF3F8) */}
+        
         <ProblemSolution />
 
-        {/* 4. DARK PRODUCT SHOWCASE (#0D1420) */}
+        
         <ProductShowcase />
 
-        {/* 5. WHITE ROLE EXPERIENCE (#FFFFFF) */}
+        
         <RolePerspectives />
 
-        {/* 6. WHITE WORKFLOW (#FFFFFF) */}
+        
         <WorkflowTimeline />
 
-        {/* 7. LIGHT SECURITY (#EEF3F8) */}
+        
         <SecurityArchitecture />
 
-        {/* 8. CINEMATIC BRAND MOMENT */}
+        
         <CinematicSection />
 
-        {/* 9. WHITE CTA (#FFFFFF) */}
+        
         <FinalCTA />
       </main>
 
-      {/* 10. DARK FOOTER (#0D1420) */}
+      
       <LandingFooter />
     </div>
   );

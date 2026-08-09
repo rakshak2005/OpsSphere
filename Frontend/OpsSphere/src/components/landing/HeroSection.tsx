@@ -20,7 +20,7 @@ import daylightHeroBg from "../../assets/daylight_hero_bg.png";
 export const HeroSection: React.FC = () => {
   return (
     <section className="relative min-h-screen pt-24 pb-12 overflow-hidden bg-[#f7f9fc] flex items-center">
-      {/* Background logistics image - shifted further to the right to increase left white space */}
+      
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute right-0 top-0 h-full w-[50%] bg-cover bg-center brightness-110 saturate-105"
@@ -29,20 +29,20 @@ export const HeroSection: React.FC = () => {
           }}
         />
 
-        {/* Soft transparent gradient transition - extended further right to 52% */}
+        
         <div className="absolute inset-0 bg-gradient-to-r from-[#f7f9fc] via-[#f7f9fc]/95 via-[52%] to-transparent" />
 
-        {/* Bottom fade */}
+        
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#f7f9fc] to-transparent" />
       </div>
 
-      {/* Hero content */}
+      
       <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-center px-6 lg:px-10">
         <div className="grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
 
-          {/* LEFT CONTENT */}
+          
           <div className="max-w-[560px]">
-            {/* Eyebrow */}
+            
             <div className="mb-5 flex items-center gap-2.5">
               <span className="h-[1px] w-7 bg-[#3b82f6]" />
               <span className="font-mono text-[11px] font-bold tracking-[0.16em] text-[#3b82f6]">
@@ -50,7 +50,7 @@ export const HeroSection: React.FC = () => {
               </span>
             </div>
 
-            {/* Heading */}
+            
             <h1 className="text-[44px] sm:text-[52px] xl:text-[60px] font-extrabold leading-[1.02] tracking-[-0.04em] text-[#0d1420]">
               Your business,
               <br />
@@ -59,13 +59,13 @@ export const HeroSection: React.FC = () => {
               </span>
             </h1>
 
-            {/* Description */}
+            
             <p className="mt-5 max-w-[480px] text-[15px] sm:text-[16px] leading-7 text-[#64748b]">
               Real-time control over customers, inventory, sales and delivery
               — from one operational system.
             </p>
 
-            {/* CTA */}
+            
             <div className="mt-7 flex flex-wrap gap-3.5">
               <Link
                 to="/login"
@@ -90,7 +90,7 @@ export const HeroSection: React.FC = () => {
               </a>
             </div>
 
-            {/* Trust indicators */}
+            
             <div className="mt-9 flex flex-wrap items-center gap-4 text-xs font-semibold text-[#475569]">
               <TrustItem
                 icon={<Users size={16} />}
@@ -116,16 +116,16 @@ export const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* RIGHT PRODUCT PREVIEW */}
+          
           <div className="relative flex items-center justify-end">
 
-            {/* Glow behind dashboard */}
+            
             <div className="absolute right-[5%] top-[12%] h-[400px] w-[400px] rounded-full bg-blue-200/25 blur-[90px]" />
 
-            {/* Dashboard Container */}
+            
             <div className="relative w-full max-w-[740px] overflow-hidden rounded-[20px] border border-white/90 bg-white/95 shadow-[0_20px_60px_rgba(59,130,246,0.14),_0_30px_80px_rgba(15,23,42,0.26)] backdrop-blur-xl">
 
-              {/* Dashboard header */}
+              
               <div className="flex h-[54px] items-center justify-between border-b border-[#e5eaf0] px-5">
                 <div className="flex items-center gap-2.5">
                   <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#3b82f6] to-[#10b981]">
@@ -157,7 +157,7 @@ export const HeroSection: React.FC = () => {
 
               <div className="flex">
 
-                {/* Sidebar */}
+                
                 <aside className="hidden w-[125px] border-r border-[#e5eaf0] p-3 md:block shrink-0">
                   <SidebarItem
                     icon={<BarChart3 size={14} />}
@@ -177,10 +177,10 @@ export const HeroSection: React.FC = () => {
                   <SidebarItem icon={<Settings size={14} />} label="Settings" />
                 </aside>
 
-                {/* Dashboard content */}
+                
                 <main className="flex-1 p-4 space-y-3.5">
 
-                  {/* Stats */}
+                  
                   <div className="grid grid-cols-2 gap-2.5 xl:grid-cols-4">
                     <StatCard
                       title="Customers"
@@ -215,10 +215,10 @@ export const HeroSection: React.FC = () => {
                     />
                   </div>
 
-                  {/* Analytics */}
+                  
                   <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1fr_190px]">
 
-                    {/* Chart */}
+                    
                     <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-3.5">
                       <div className="flex items-center justify-between">
                         <div>
@@ -270,7 +270,7 @@ export const HeroSection: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Audit logs */}
+                    
                     <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-3.5 space-y-2">
                       <div className="flex items-center gap-1.5">
                         <Activity
@@ -305,7 +305,7 @@ export const HeroSection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Bottom metrics */}
+                  
                   <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                     <BottomMetric
                       icon={<Package size={13} />}
@@ -341,7 +341,7 @@ export const HeroSection: React.FC = () => {
   );
 };
 
-/* ---------------- HELPER COMPONENTS ---------------- */
+
 
 const TrustItem = ({ icon, title, type }: { icon: React.ReactNode; title: string; type: string }) => {
   return (

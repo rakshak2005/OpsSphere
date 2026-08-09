@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Plus, Minus, ArrowUpRight, ArrowDownRight, Loader2, Mail } from "lucide-react";
+import { Plus, Minus, ArrowUpRight, ArrowDownRight, Loader2, Mail, Download } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
 import { Modal } from "../../components/ui/Modal";
@@ -23,7 +23,7 @@ export const InventoryPage: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  // Stock Request via Email state variables
+  
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [requestProductId, setRequestProductId] = useState("");
   const [requestQuantity, setRequestQuantity] = useState("10");
@@ -110,13 +110,34 @@ export const InventoryPage: React.FC = () => {
       `OpsSphere ERP Platform`
     );
 
-    // Open native client mail draft
+    
     window.location.href = `mailto:procurement@opssphere.com?subject=${subject}&body=${body}`;
 
     setRequestModalOpen(false);
     setRequestProductId("");
     setRequestQuantity("10");
     setRequestNotes("");
+  };
+
+  const exportToCSV = () => {
+    const headers = ["Timestamp", "Product Name", "SKU", "Movement Type", "Quantity", "Reason", "Logged By"];
+    const rows = movements.map((m) => [
+      new Date(m.createdAt).toLocaleString(),
+      m.product?.productName || "",
+      m.product?.sku || "",
+      m.type,
+      m.type === "IN" ? `+${m.quantity}` : `-${m.quantity}`,
+      m.reason,
+      m.createdBy?.name || "System",
+    ]);
+    const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `inventory_movements_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -129,6 +150,14 @@ export const InventoryPage: React.FC = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            icon={<Download className="w-4 h-4 text-slate-500" />}
+            onClick={exportToCSV}
+            disabled={movements.length === 0}
+          >
+            Export CSV
+          </Button>
           {canRequestStock && (
             <Button
               variant="outline"
@@ -215,7 +244,7 @@ export const InventoryPage: React.FC = () => {
         )}
       </div>
 
-      {/* Modal: IN/OUT Stock Adjustments */}
+      
       <Modal
         isOpen={modalType !== null}
         onClose={() => setModalType(null)}
@@ -284,7 +313,7 @@ export const InventoryPage: React.FC = () => {
         </form>
       </Modal>
 
-      {/* Modal: Request Stock via Email */}
+      
       <Modal
         isOpen={requestModalOpen}
         onClose={() => setRequestModalOpen(false)}

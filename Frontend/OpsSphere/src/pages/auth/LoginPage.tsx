@@ -51,14 +51,14 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="h-screen w-screen relative flex items-center justify-between px-6 sm:px-12 lg:px-20 overflow-hidden antialiased font-sans bg-[#0D1420]">
 
-      {/* 1. Background Warehouse Image (Unchanged) */}
+      
       <img
         src={warehouseBg}
         alt="OpsSphere warehouse operations background"
         className="absolute inset-0 w-full h-full object-cover object-center z-0"
       />
 
-      {/* Subtle overlay for contrast */}
+      
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
@@ -66,7 +66,7 @@ export const LoginPage: React.FC = () => {
         }}
       />
 
-      {/* Left: Background Brand Message (positioned lower-left) */}
+      
       <div className="hidden lg:flex flex-col justify-end h-full py-16 max-w-lg z-10 relative pointer-events-none select-none">
         <div className="space-y-4">
           <span className="text-[10px] font-mono font-bold tracking-widest text-[#94A3B8] uppercase">
@@ -83,10 +83,10 @@ export const LoginPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Right: Login Card Container (Centered vertically, shifted slightly left of the right edge) */}
+      
       <div className="w-full lg:w-auto h-full flex items-center justify-center lg:justify-end lg:pr-40 z-10 relative">
         
-        {/* Whitish High-Clarity Authentication Panel */}
+        
         <div
           className="w-full sm:w-[440px] rounded-[24px] flex flex-col justify-between"
           style={{
@@ -99,7 +99,7 @@ export const LoginPage: React.FC = () => {
         >
           <div className="space-y-6">
 
-            {/* Back to Home */}
+            
             <button
               type="button"
               onClick={() => navigate("/")}
@@ -111,7 +111,7 @@ export const LoginPage: React.FC = () => {
               Back to Home
             </button>
 
-            {/* Header: Logo, Brand & Tagline */}
+            
             <div className="space-y-3.5">
               <div className="flex items-center gap-2.5">
                 <img src={logoImg} alt="OpsSphere Logo" className="w-7 h-7 object-contain" />
@@ -131,7 +131,7 @@ export const LoginPage: React.FC = () => {
             </div>
 
 
-            {/* Error Message */}
+            
             {error && (
               <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-center gap-2 text-xs text-rose-700 font-medium">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
@@ -139,7 +139,7 @@ export const LoginPage: React.FC = () => {
               </div>
             )}
 
-            {/* Form */}
+            
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Email Address</label>
@@ -200,7 +200,7 @@ export const LoginPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Secret Code Input Field */}
+              
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">Secret User Code</label>
                 <div className="relative flex items-center">
@@ -261,7 +261,7 @@ export const LoginPage: React.FC = () => {
               </button>
             </form>
 
-            {/* Security Divider & Detail */}
+            
             <div className="pt-5 border-t border-slate-200/80 flex items-center justify-between text-xs text-slate-500">
               <div className="flex items-center gap-2 font-semibold text-[#0D1420]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />

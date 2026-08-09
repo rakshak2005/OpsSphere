@@ -15,10 +15,10 @@ import { Role } from "../schemas/user.schema";
 
 const router = Router();
 
-// All challan paths require authenticated sessions
+
 router.use(protect);
 
-// Read permissions: Admin, Sales, Warehouse, Accounts
+
 router.get(
   "/",
   restrictTo(Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS),
@@ -30,7 +30,7 @@ router.get(
   getChallanById
 );
 
-// Write permissions: Admin and Sales roles only
+
 router.post(
   "/",
   restrictTo(Role.ADMIN, Role.SALES),

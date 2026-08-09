@@ -4,9 +4,7 @@ import { CreateUserInput } from "../schemas/user.schema";
 import { sendResponse } from "../utils/api-response";
 import { catchAsync } from "../utils/catch-async";
 
-/**
- * Handle new portal user registration request.
- */
+
 export const registerUser = catchAsync(
   async (
     req: Request<{}, {}, CreateUserInput["body"]>,
@@ -14,7 +12,7 @@ export const registerUser = catchAsync(
   ): Promise<void> => {
     const { name, email, password, role, secretCode } = req.body;
 
-    // Check database for existing registration
+    
     const existingUser = await UserService.getUserByEmail(email);
 
     if (existingUser) {
@@ -25,7 +23,7 @@ export const registerUser = catchAsync(
       return;
     }
 
-    // Call service to hash password and write user
+    
     const newUser = await UserService.createUser({
       name,
       email,
@@ -34,7 +32,7 @@ export const registerUser = catchAsync(
       secretCode,
     });
 
-    // Log the user registration action
+    
     if (req.user?.id) {
       await UserService.logActivity(req.user.id, "USER_CREATE", `Created new user: ${name} (${role})`);
     }
@@ -48,9 +46,7 @@ export const registerUser = catchAsync(
   }
 );
 
-/**
- * Get all users for admin management.
- */
+
 export const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const users = await UserService.getAllUsers();
   sendResponse({
@@ -61,9 +57,7 @@ export const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-/**
- * Update password for a particular user (Admin access).
- */
+
 export const changePassword = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { newPassword } = req.body;
@@ -75,7 +69,7 @@ export const changePassword = catchAsync(async (req: Request, res: Response) => 
 
   const updatedUser = await UserService.updatePassword(id, newPassword);
 
-  // Log action
+  
   if (req.user?.id) {
     await UserService.logActivity(
       req.user.id,
@@ -92,9 +86,7 @@ export const changePassword = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
-/**
- * Get User activity logs (Admin audit trails).
- */
+
 export const getActivityLogs = catchAsync(async (req: Request, res: Response) => {
   const logs = await UserService.getActivityLogs();
   sendResponse({

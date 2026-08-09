@@ -2,9 +2,7 @@ import prisma from "../lib/prisma";
 import { Prisma } from "@prisma/client";
 
 export class ProductService {
-  /**
-   * Fetch all products with fuzzy search, low-stock checks, category filter, and pagination.
-   */
+  
   public static async getAllProducts(params: {
     page: number;
     limit: number;
@@ -15,7 +13,7 @@ export class ProductService {
     const { page, limit, search, category, lowStockOnly } = params;
     const skip = (page - 1) * limit;
 
-    // Build the query where clause
+    
     const where: Prisma.ProductWhereInput = {};
 
     if (category) {
@@ -30,7 +28,7 @@ export class ProductService {
     }
 
     if (lowStockOnly) {
-      // Fetch items where current stock matches or falls below minimum threshold levels
+      
       where.currentStock = {
         lte: prisma.product.fields.minimumStock,
       };
@@ -57,18 +55,14 @@ export class ProductService {
     };
   }
 
-  /**
-   * Fetch a single product by ID.
-   */
+  
   public static async getProductById(id: string) {
     return prisma.product.findUnique({
       where: { id },
     });
   }
 
-  /**
-   * Create a new product.
-   */
+  
   public static async createProduct(data: {
     productName: string;
     sku: string;
@@ -83,9 +77,7 @@ export class ProductService {
     });
   }
 
-  /**
-   * Update an existing product.
-   */
+  
   public static async updateProduct(id: string, data: Prisma.ProductUpdateInput) {
     return prisma.product.update({
       where: { id },
@@ -93,9 +85,7 @@ export class ProductService {
     });
   }
 
-  /**
-   * Delete product by ID.
-   */
+  
   public static async deleteProduct(id: string) {
     return prisma.product.delete({
       where: { id },

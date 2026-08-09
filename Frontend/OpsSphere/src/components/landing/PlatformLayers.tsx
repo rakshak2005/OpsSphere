@@ -31,12 +31,12 @@ export const PlatformLayers: React.FC = () => {
 
   return (
     <section id="layers" className="py-24 bg-[#0D1420] text-white border-y border-slate-800/60 relative overflow-hidden">
-      {/* Background Decorative Mesh Glow */}
+      
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[350px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Header */}
+        
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-xs font-mono font-bold uppercase tracking-widest text-[#3B82F6] bg-blue-500/10 border border-blue-500/30 px-3.5 py-1 rounded-full mb-3.5">
             SYSTEM ARCHITECTURE
@@ -49,7 +49,7 @@ export const PlatformLayers: React.FC = () => {
           </p>
         </div>
 
-        {/* Dynamic Glassmorphism Gradient Cards */}
+        
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {layers.map((l, idx) => {
             const Icon = l.icon;
@@ -58,7 +58,7 @@ export const PlatformLayers: React.FC = () => {
                 key={idx}
                 className="relative p-7 rounded-[22px] bg-gradient-to-b from-slate-900/90 to-slate-950/95 border border-white/5 hover:border-[#3B82F6]/60 transition-all duration-300 group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] hover:shadow-[#3B82F6]/10"
               >
-                {/* Subtle top glow line on hover */}
+                
                 <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#3B82F6] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-[22px]" />
 
                 <div className="flex items-center justify-between mb-5">

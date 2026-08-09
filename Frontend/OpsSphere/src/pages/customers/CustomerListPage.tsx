@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   Plus, Search, Filter, Eye, Trash2, Loader2, Phone, Mail, 
-  MoreVertical, Calendar, Building, X 
+  MoreVertical, Calendar, Building, X, Download
 } from "lucide-react";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
@@ -17,23 +17,23 @@ export const CustomerListPage: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Search & Filter state
+  
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   
-  // KPI Filter Selection
+  
   const [selectedKpi, setSelectedKpi] = useState<"ALL" | "ACTIVE" | "LEAD" | "TODAY">("ALL");
 
-  // Selection state for Bulk Actions
+  
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-  // Selected customer for the 360° slide-over drawer
+  
   const [drawerCustomer, setDrawerCustomer] = useState<Customer | null>(null);
 
-  // Active contextual menu dropdown row ID
+  
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
-  // Delete confirmation modals
+  
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
@@ -73,7 +73,7 @@ export const CustomerListPage: React.FC = () => {
 
   const handleBulkDelete = async () => {
     try {
-      // Parallel soft deletes
+      
       await Promise.all(Array.from(selectedIds).map((id) => CustomerService.delete(id)));
       setCustomers((prev) => prev.filter((c) => !selectedIds.has(c.id)));
       setSelectedIds(new Set());
@@ -107,7 +107,31 @@ export const CustomerListPage: React.FC = () => {
     }
   };
 
-  // Helper to identify follow-up alerts
+  const exportToCSV = () => {
+    const headers = ["Customer Name", "Business Name", "Mobile", "Email", "Type", "Status", "GST Number", "Address", "Follow-Up Date", "Notes"];
+    const rows = filteredCustomers.map((c) => [
+      c.customerName,
+      c.businessName || "",
+      c.mobile,
+      c.email || "",
+      c.customerType || "",
+      c.status,
+      c.gstNumber || "",
+      c.address || "",
+      c.followUpDate ? new Date(c.followUpDate).toLocaleDateString() : "",
+      c.notes || "",
+    ]);
+    const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `customers_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  
   const checkFollowUpDays = (dateStr: string | null | undefined) => {
     if (!dateStr) return null;
     const target = new Date(dateStr);
@@ -134,21 +158,21 @@ export const CustomerListPage: React.FC = () => {
     }
   };
 
-  // Filter client-side based on KPI selections
+  
   const filteredCustomers = customers.filter((c) => {
     if (selectedKpi === "ACTIVE") return c.status === "ACTIVE";
     if (selectedKpi === "LEAD") return c.status === "LEAD";
     if (selectedKpi === "TODAY") return checkFollowUpDays(c.followUpDate) === 0;
-    return true; // "ALL"
+    return true; 
   });
 
-  // Calculate totals for KPI strip
+  
   const totalCount = customers.length;
   const activeCount = customers.filter((c) => c.status === "ACTIVE").length;
   const leadCount = customers.filter((c) => c.status === "LEAD").length;
   const todayFollowUpCount = customers.filter((c) => checkFollowUpDays(c.followUpDate) === 0).length;
 
-  // Multi-row Checkbox toggles
+  
   const handleToggleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setSelectedIds(new Set(filteredCustomers.map((c) => c.id)));
@@ -169,7 +193,7 @@ export const CustomerListPage: React.FC = () => {
   return (
     <div className="space-y-6 relative">
       
-      {/* Title Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight">Customer Directory</h1>
@@ -177,16 +201,26 @@ export const CustomerListPage: React.FC = () => {
             Manage wholesale/retail customer accounts, follow-ups, and business details.
           </p>
         </div>
-        {canEdit && (
-          <Link to="/customers/create">
-            <Button variant="primary" icon={<Plus className="w-4 h-4" />}>
-              Add Customer
-            </Button>
-          </Link>
-        )}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            icon={<Download className="w-4 h-4 text-slate-500" />}
+            onClick={exportToCSV}
+            disabled={filteredCustomers.length === 0}
+          >
+            Export CSV
+          </Button>
+          {canEdit && (
+            <Link to="/customers/create">
+              <Button variant="primary" icon={<Plus className="w-4 h-4" />}>
+                Add Customer
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* KPI Stats Strip */}
+      
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { key: "ALL", label: "Total Accounts", count: totalCount, highlight: "border-slate-200 hover:border-slate-300" },
@@ -210,7 +244,7 @@ export const CustomerListPage: React.FC = () => {
         })}
       </div>
 
-      {/* Search & Bulk Actions Bar */}
+      
       <div className="flex flex-col sm:flex-row items-center gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
         <div className="w-full sm:flex-1 relative">
           <Input
@@ -235,7 +269,7 @@ export const CustomerListPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Bulk Actions Indicator Banner */}
+      
       {selectedIds.size > 0 && (
         <div className="flex flex-wrap items-center justify-between gap-3 bg-indigo-50 border border-indigo-100 px-5 py-3 rounded-xl">
           <span className="text-xs font-bold text-indigo-900">
@@ -275,7 +309,7 @@ export const CustomerListPage: React.FC = () => {
         </div>
       )}
 
-      {/* Grid List Table */}
+      
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
@@ -314,7 +348,7 @@ export const CustomerListPage: React.FC = () => {
                   return (
                     <tr key={c.id} className={`hover:bg-slate-50/50 transition-colors ${isChecked ? "bg-indigo-50/20" : ""}`}>
                       
-                      {/* Checkbox select */}
+                      
                       <td className="px-6 py-4 text-center">
                         <input
                           type="checkbox"
@@ -324,7 +358,7 @@ export const CustomerListPage: React.FC = () => {
                         />
                       </td>
 
-                      {/* Name / Business */}
+                      
                       <td className="px-6 py-4">
                         <span 
                           onClick={() => setDrawerCustomer(c)}
@@ -337,7 +371,7 @@ export const CustomerListPage: React.FC = () => {
                         )}
                       </td>
 
-                      {/* Contacts */}
+                      
                       <td className="px-6 py-4">
                         <div className="flex flex-col text-[11px] gap-0.5">
                           <span className="flex items-center gap-1 text-slate-700 font-medium">
@@ -351,24 +385,24 @@ export const CustomerListPage: React.FC = () => {
                         </div>
                       </td>
 
-                      {/* Type Badge */}
+                      
                       <td className="px-6 py-4">
                         <Badge variant="info">{c.customerType}</Badge>
                       </td>
 
-                      {/* Status */}
+                      
                       <td className="px-6 py-4">
                         <Badge variant={c.status === "ACTIVE" ? "success" : c.status === "LEAD" ? "warning" : "danger"}>
                           {c.status}
                         </Badge>
                       </td>
 
-                      {/* Follow-up column */}
+                      
                       <td className="px-6 py-4 font-mono font-semibold text-[11px]">
                         <span className={followUp.colorClass}>{followUp.label}</span>
                       </td>
 
-                      {/* Actions */}
+                      
                       <td className="px-6 py-4 text-right relative">
                         <div className="flex items-center justify-end gap-1">
                           <Button 
@@ -387,7 +421,7 @@ export const CustomerListPage: React.FC = () => {
                           </button>
                         </div>
 
-                        {/* Row Context Menu Dropdown */}
+                        
                         {activeMenuId === c.id && (
                           <>
                             <div 
@@ -457,18 +491,18 @@ export const CustomerListPage: React.FC = () => {
         )}
       </div>
 
-      {/* Customer 360° Slide-Over Right Drawer */}
+      
       {drawerCustomer && (
         <>
-          {/* Backdrop */}
+          
           <div 
             onClick={() => setDrawerCustomer(null)}
             className="fixed inset-0 z-40 bg-slate-900/35 backdrop-blur-xs transition-opacity" 
           />
-          {/* Drawer Panel */}
+          
           <div className="fixed top-0 right-0 h-full w-[420px] max-w-full bg-white border-l border-slate-200 z-50 shadow-2xl flex flex-col justify-between overflow-hidden animate-slide-in">
             
-            {/* Header */}
+            
             <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div>
                 <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Customer Details</span>
@@ -484,10 +518,10 @@ export const CustomerListPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Content Body */}
+            
             <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
               
-              {/* Type and Status Badges */}
+              
               <div className="flex items-center gap-2">
                 <Badge variant="info">{drawerCustomer.customerType}</Badge>
                 <Badge variant={drawerCustomer.status === "ACTIVE" ? "success" : drawerCustomer.status === "LEAD" ? "warning" : "danger"}>
@@ -495,7 +529,7 @@ export const CustomerListPage: React.FC = () => {
                 </Badge>
               </div>
 
-              {/* Contact Information */}
+              
               <div className="space-y-3">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Contact Information</span>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-xs space-y-2.5">
@@ -510,7 +544,7 @@ export const CustomerListPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Business Registries */}
+              
               <div className="space-y-3">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Business Registry</span>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-xs space-y-2.5">
@@ -531,7 +565,7 @@ export const CustomerListPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Follow-up schedule */}
+              
               <div className="space-y-3">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Follow-up Status</span>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 text-xs space-y-2">
@@ -551,7 +585,7 @@ export const CustomerListPage: React.FC = () => {
 
             </div>
 
-            {/* Footer Actions */}
+            
             <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3.5 shrink-0">
               <button 
                 onClick={() => setDrawerCustomer(null)}
@@ -570,7 +604,7 @@ export const CustomerListPage: React.FC = () => {
         </>
       )}
 
-      {/* Confirmation Dialogs */}
+      
       <ConfirmDialog
         isOpen={!!deleteId}
         onClose={() => setDeleteId(null)}

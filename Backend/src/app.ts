@@ -8,11 +8,11 @@ import apiRouter from "./routes";
 
 const app: Application = express();
 
-// Request logging middleware
+
 app.use(morgan("dev"));
 
-// Enable Cross-Origin Resource Sharing
-// Supports multiple origins: FRONTEND_URL can be comma-separated list
+
+
 const allowedOrigins = config.frontendUrl
   .split(",")
   .map((o) => o.trim())
@@ -21,7 +21,7 @@ const allowedOrigins = config.frontendUrl
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, curl, Render health checks)
+      
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
@@ -33,14 +33,14 @@ app.use(
   })
 );
 
-// Body parsing middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Cookie parsing middleware
+
 app.use(cookieParser());
 
-// Base health check endpoint
+
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
@@ -49,23 +49,23 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-// Mount versioned API routes
+
 app.use("/api/v1", apiRouter);
 
-// Global Error Handler Middleware
+
 app.use((err: AppError, req: Request, res: Response, _next: NextFunction) => {
   let statusCode = err.statusCode || 500;
   let message = err.message || "Internal Server Error";
   let errors = err.errors || [];
 
-  // Log programmer/server errors to console for system monitoring
+  
   if (!err.isOperational) {
     console.error("🔥 SYSTEM ERROR:", err);
   }
 
-  // Formatting rules for client responses
+  
   if (config.nodeEnv === "production") {
-    // Hide unexpected programmer stack traces from customers in production
+    
     if (!err.isOperational) {
       statusCode = 500;
       message = "Something went wrong on the server!";
@@ -78,7 +78,7 @@ app.use((err: AppError, req: Request, res: Response, _next: NextFunction) => {
       errors,
     });
   } else {
-    // In development, supply call stack details to aid debug operations
+    
     res.status(statusCode).json({
       success: false,
       message,

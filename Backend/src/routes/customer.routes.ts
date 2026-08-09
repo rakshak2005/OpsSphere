@@ -17,10 +17,10 @@ import { Role } from "../schemas/user.schema";
 
 const router = Router();
 
-// All CRM routes require authentication
+
 router.use(protect);
 
-// Read permissions: Admin, Sales, Warehouse, Accounts
+
 router.get(
   "/",
   restrictTo(Role.ADMIN, Role.SALES, Role.WAREHOUSE, Role.ACCOUNTS),
@@ -32,7 +32,7 @@ router.get(
   getCustomerById
 );
 
-// Write permissions: Admin, Sales only
+
 router.post(
   "/",
   restrictTo(Role.ADMIN, Role.SALES),
