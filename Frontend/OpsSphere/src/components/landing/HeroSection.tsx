@@ -123,7 +123,7 @@ export const HeroSection: React.FC = () => {
             <div className="absolute right-[5%] top-[12%] h-[400px] w-[400px] rounded-full bg-blue-200/25 blur-[90px]" />
 
             {/* Dashboard Container */}
-            <div className="relative w-full max-w-[740px] overflow-hidden rounded-[20px] border border-white/90 bg-white/95 shadow-[0_25px_70px_rgba(15,23,42,0.16)] backdrop-blur-xl">
+            <div className="relative w-full max-w-[740px] overflow-hidden rounded-[20px] border border-white/90 bg-white/95 shadow-[0_20px_60px_rgba(59,130,246,0.14),_0_30px_80px_rgba(15,23,42,0.26)] backdrop-blur-xl">
 
               {/* Dashboard header */}
               <div className="flex h-[54px] items-center justify-between border-b border-[#e5eaf0] px-5">
