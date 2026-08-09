@@ -36,6 +36,7 @@ export const CustomerListPage: React.FC = () => {
   
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
+  const [sortBy, setSortBy] = useState("name-asc");
 
   const { user } = useAuth();
   const canEdit = user?.role === RoleEnum.ADMIN || user?.role === RoleEnum.SALES;
@@ -166,6 +167,33 @@ export const CustomerListPage: React.FC = () => {
     return true; 
   });
 
+  const sortedCustomers = [...filteredCustomers].sort((a, b) => {
+    switch (sortBy) {
+      case "name-asc":
+        return a.customerName.localeCompare(b.customerName);
+      case "name-desc":
+        return b.customerName.localeCompare(a.customerName);
+      case "business-asc":
+        return (a.businessName || "").localeCompare(b.businessName || "");
+      case "followup-asc": {
+        if (!a.followUpDate) return 1;
+        if (!b.followUpDate) return -1;
+        return new Date(a.followUpDate).getTime() - new Date(b.followUpDate).getTime();
+      }
+      case "followup-desc": {
+        if (!a.followUpDate) return 1;
+        if (!b.followUpDate) return -1;
+        return new Date(b.followUpDate).getTime() - new Date(a.followUpDate).getTime();
+      }
+      case "created-desc":
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+      case "created-asc":
+        return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+      default:
+        return 0;
+    }
+  });
+
   
   const totalCount = customers.length;
   const activeCount = customers.filter((c) => c.status === "ACTIVE").length;
@@ -267,6 +295,22 @@ export const CustomerListPage: React.FC = () => {
             <option value="INACTIVE">INACTIVE</option>
           </select>
         </div>
+        <div className="w-full sm:w-48 flex items-center gap-2 border border-slate-200 rounded-lg px-2.5 py-1 bg-white">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Sort:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full text-xs text-slate-700 bg-transparent border-0 focus:outline-hidden font-medium cursor-pointer"
+          >
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="business-asc">Business Name</option>
+            <option value="followup-asc">Follow-Up (Earliest)</option>
+            <option value="followup-desc">Follow-Up (Latest)</option>
+            <option value="created-desc">Newest Added</option>
+            <option value="created-asc">Oldest Added</option>
+          </select>
+        </div>
       </div>
 
       
@@ -315,7 +359,7 @@ export const CustomerListPage: React.FC = () => {
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-6 h-6 text-indigo-600 animate-spin" />
           </div>
-        ) : filteredCustomers.length === 0 ? (
+        ) : sortedCustomers.length === 0 ? (
           <div className="py-12 text-center text-slate-500 text-sm font-medium">
             No customers match the current filter options.
           </div>
@@ -328,7 +372,7 @@ export const CustomerListPage: React.FC = () => {
                     <input
                       type="checkbox"
                       onChange={handleToggleSelectAll}
-                      checked={selectedIds.size === filteredCustomers.length && filteredCustomers.length > 0}
+                      checked={selectedIds.size === sortedCustomers.length && sortedCustomers.length > 0}
                       className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
                     />
                   </th>
@@ -341,7 +385,7 @@ export const CustomerListPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {filteredCustomers.map((c) => {
+                {sortedCustomers.map((c) => {
                   const isChecked = selectedIds.has(c.id);
                   const followUp = getFollowUpBadge(c.followUpDate);
                   

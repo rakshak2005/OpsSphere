@@ -23,6 +23,10 @@ export const InventoryPage: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
+  const [sortBy, setSortBy] = useState("date-desc");
+
   
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [requestProductId, setRequestProductId] = useState("");
@@ -140,6 +144,35 @@ export const InventoryPage: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  const filteredMovements = movements.filter((m) => {
+    const productName = m.product?.productName || "";
+    const sku = m.product?.sku || "";
+    const matchesSearch = 
+      productName.toLowerCase().includes(search.toLowerCase()) || 
+      sku.toLowerCase().includes(search.toLowerCase());
+    const matchesType = typeFilter === "" || m.type === typeFilter;
+    return matchesSearch && matchesType;
+  });
+
+  const sortedMovements = [...filteredMovements].sort((a, b) => {
+    switch (sortBy) {
+      case "date-desc":
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case "date-asc":
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      case "qty-desc":
+        return b.quantity - a.quantity;
+      case "qty-asc":
+        return a.quantity - b.quantity;
+      case "name-asc":
+        return (a.product?.productName || "").localeCompare(b.product?.productName || "");
+      case "name-desc":
+        return (b.product?.productName || "").localeCompare(a.product?.productName || "");
+      default:
+        return 0;
+    }
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
@@ -188,14 +221,53 @@ export const InventoryPage: React.FC = () => {
         </div>
       </div>
 
+      <div className="flex flex-col sm:flex-row items-center gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <div className="w-full sm:flex-1">
+          <input
+            type="text"
+            placeholder="Search movements by product name or SKU..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full text-xs text-slate-800 px-3 py-2 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-indigo-500 font-medium"
+          />
+        </div>
+        <div className="w-full sm:w-48 flex items-center gap-2 border border-slate-200 rounded-lg px-2.5 py-1 bg-white">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Type:</span>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="w-full text-xs text-slate-700 bg-transparent border-0 focus:outline-hidden font-medium cursor-pointer"
+          >
+            <option value="">All Types</option>
+            <option value="IN">IN (Additions)</option>
+            <option value="OUT">OUT (Reductions)</option>
+          </select>
+        </div>
+        <div className="w-full sm:w-48 flex items-center gap-2 border border-slate-200 rounded-lg px-2.5 py-1 bg-white">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Sort:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full text-xs text-slate-700 bg-transparent border-0 focus:outline-hidden font-medium cursor-pointer"
+          >
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="qty-desc">Quantity: High to Low</option>
+            <option value="qty-asc">Quantity: Low to High</option>
+            <option value="name-asc">Product Name (A-Z)</option>
+            <option value="name-desc">Product Name (Z-A)</option>
+          </select>
+        </div>
+      </div>
+
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-6 h-6 text-indigo-600 animate-spin" />
           </div>
-        ) : movements.length === 0 ? (
+        ) : sortedMovements.length === 0 ? (
           <div className="text-center py-12 text-slate-500 text-sm">
-            No stock movements logged. Use "Add Stock (IN)" or dispatch a challan to log entries.
+            No stock movements match the filter criteria.
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -211,7 +283,7 @@ export const InventoryPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {movements.map((m) => {
+                {sortedMovements.map((m) => {
                   const isIN = m.type === "IN";
                   return (
                     <tr key={m.id} className="hover:bg-slate-50/50">

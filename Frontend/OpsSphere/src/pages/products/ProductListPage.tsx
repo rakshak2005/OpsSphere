@@ -16,6 +16,7 @@ export const ProductListPage: React.FC = () => {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState("name-asc");
 
   const { user } = useAuth();
   const canEdit = user?.role === RoleEnum.ADMIN || user?.role === RoleEnum.WAREHOUSE;
@@ -34,6 +35,27 @@ export const ProductListPage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const sortedProducts = [...products].sort((a, b) => {
+    switch (sortBy) {
+      case "name-asc":
+        return a.productName.localeCompare(b.productName);
+      case "name-desc":
+        return b.productName.localeCompare(a.productName);
+      case "price-asc":
+        return a.unitPrice - b.unitPrice;
+      case "price-desc":
+        return b.unitPrice - a.unitPrice;
+      case "stock-asc":
+        return a.currentStock - b.currentStock;
+      case "stock-desc":
+        return b.currentStock - a.currentStock;
+      case "sku-asc":
+        return a.sku.localeCompare(b.sku);
+      default:
+        return 0;
+    }
+  });
 
   useEffect(() => {
     fetchProducts();
@@ -116,6 +138,22 @@ export const ProductListPage: React.FC = () => {
             onChange={(e) => setCategoryFilter(e.target.value)}
           />
         </div>
+        <div className="w-full sm:w-48 flex items-center gap-2 border border-slate-200 rounded-lg px-2.5 py-1 bg-white">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Sort:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full text-xs text-slate-700 bg-transparent border-0 focus:outline-hidden font-medium cursor-pointer"
+          >
+            <option value="name-asc">Name (A-Z)</option>
+            <option value="name-desc">Name (Z-A)</option>
+            <option value="price-asc">Price (Low-High)</option>
+            <option value="price-desc">Price (High-Low)</option>
+            <option value="stock-asc">Stock (Low-High)</option>
+            <option value="stock-desc">Stock (High-Low)</option>
+            <option value="sku-asc">SKU (A-Z)</option>
+          </select>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
@@ -123,7 +161,7 @@ export const ProductListPage: React.FC = () => {
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-6 h-6 text-indigo-600 animate-spin" />
           </div>
-        ) : products.length === 0 ? (
+        ) : sortedProducts.length === 0 ? (
           <div className="py-12 text-center">
             <p className="text-sm text-slate-500 font-medium">No products found in catalog.</p>
           </div>
@@ -141,7 +179,7 @@ export const ProductListPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {products.map((p) => {
+                {sortedProducts.map((p) => {
                   const isLowStock = p.currentStock <= p.minimumStock;
                   return (
                     <tr key={p.id} className="hover:bg-slate-50/60 transition">
