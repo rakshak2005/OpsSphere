@@ -1,3 +1,26 @@
+# OpsSphere
+Enterprise ERP + CRM Operations Management Platform.
+--- 
+## 📚 Documentations Asked BY the Company  
+
+- [API Documentation](./docs/API_Documentation.md)
+- [System Architecture](./docs/System-architecture.md)
+- [Test Credentials](./docs/Credentials.md)
+
+All project documentation is maintained in the `docs` directory.
+
+## Login Guide 
+
+OpsSphere uses a three-step login verification process for enhanced account security. Users must provide their registered 
+
+## email address,
+## password, 
+## unique user secret key.
+ 
+The secret key provides an additional verification layer and helps identify and authenticate the specific user account before access is granted.
+
+
+
 # OpsSphere — Credentials
 
 | Role          | Name               | Email                     | Password       | User secret Code |
