@@ -89,8 +89,9 @@ export const DashboardPage: React.FC = () => {
         const date = new Date(ch.createdAt);
         const dayName = dayNamesMap[date.getDay()];
         if (dayName) {
-          // Add 12 units per live challan found on that day to show visible dynamic updates
-          extraDispatches[dayName] += 12;
+          // Sum the actual quantities of all items in this challan
+          const challanQuantity = ch.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+          extraDispatches[dayName] += challanQuantity;
         }
       });
 

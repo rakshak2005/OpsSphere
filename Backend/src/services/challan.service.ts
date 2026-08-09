@@ -37,6 +37,7 @@ export class ChallanService {
               name: true,
             },
           },
+          items: true,
         },
       }),
     ]);
