@@ -1,6 +1,10 @@
 # OpsSphere
 Enterprise ERP + CRM Operations Management Platform.
 --- 
+-VERCEL DEPLOYMENT LINK : https://ops-sphere.vercel.app/
+
+-RENDER DEPLOYEMENT LINK : https://opssphere-backend.onrender.com
+
 ## 📚 Documentations Asked BY the Company  
 
 - [API Documentation](./docs/API_Documentation.md)
