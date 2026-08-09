@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { Eye, EyeOff, ArrowRight, Loader2, AlertCircle, ShieldCheck, Mail, Lock, Key } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Loader2, AlertCircle, ShieldCheck, Mail, Lock, Key, X } from "lucide-react";
 import logoImg from "../../assets/logo.png";
 import warehouseBg from "../../../warehouse.jpg";
 
@@ -13,6 +13,7 @@ export const LoginPage: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showForgotModal, setShowForgotModal] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -237,9 +238,13 @@ export const LoginPage: React.FC = () => {
                   />
                   <span className="text-[11px]">Remember this device</span>
                 </label>
-                <a href="#forgot" className="text-[11px] text-[#3B82F6] font-bold hover:underline">
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(true)}
+                  className="text-[11px] text-[#3B82F6] font-bold hover:underline bg-transparent border-0 cursor-pointer p-0"
+                >
                   Forgot password?
-                </a>
+                </button>
               </div>
 
               <button
@@ -277,6 +282,52 @@ export const LoginPage: React.FC = () => {
         </div>
 
       </div>
+
+      {showForgotModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-xs p-4 transition-all animate-in fade-in duration-200">
+          <div className="bg-white w-full max-w-md rounded-[20px] shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+              <h3 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">Reset Password</h3>
+              <button 
+                onClick={() => setShowForgotModal(false)}
+                className="text-slate-400 hover:text-slate-600 transition p-1 hover:bg-slate-100 rounded-lg"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 mb-2">
+                <ShieldCheck className="w-6 h-6 text-[#3B82F6]" />
+              </div>
+              <h4 className="font-bold text-slate-900 text-sm">Contact Administrator</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                For security reasons, password resets must be managed by an administrator. Please reach out to our IT support or administration team to request a credentials change.
+              </p>
+              <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-2">
+                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Administrator Emails</p>
+                <ul className="space-y-2 text-xs text-slate-700 font-medium">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
+                    <a href="mailto:admin@opssphere.com" className="hover:underline text-[#3B82F6]">admin@opssphere.com</a>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
+                    <a href="mailto:rakshak@opssphere.com" className="hover:underline text-[#3B82F6]">rakshak@opssphere.com</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setShowForgotModal(false)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
